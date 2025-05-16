@@ -72,53 +72,35 @@ AgriTech Béchar is a Laravel-based application for agricultural technology mana
 
 ## Deployment
 
-### Deploying to Heroku
+### GitHub Pages Deployment
 
-1. Create a GitHub repository:
-   - Go to GitHub: https://github.com/new
-   - Name the repository: `agritech`
-   - Choose "Public" visibility
-   - Click "Create repository"
+The application is deployed on GitHub Pages and can be accessed at:
 
-2. Push your code to GitHub:
+https://aissa232300.github.io/agritech/
+
+The deployment is automated using GitHub Actions. When you push changes to the `main` branch, the application is automatically deployed to GitHub Pages.
+
+### Manual Deployment
+
+To deploy the application manually:
+
+1. Push your code to GitHub:
    ```bash
    git remote add origin https://github.com/AISSA232300/agritech.git
    git branch -M main
    git push -u origin main
    ```
 
-3. Use the deployment script:
-   ```bash
-   ./deploy.sh
-   ```
+2. Go to the repository settings on GitHub:
+   - Navigate to https://github.com/AISSA232300/agritech/settings/pages
+   - Under "Source", select the `gh-pages` branch
+   - Click "Save"
 
-   This script will:
-   - Log in to Heroku
-   - Create a new Heroku app
-   - Add a MySQL database
-   - Set environment variables
-   - Push the code to Heroku
-   - Run migrations and seeders
-   - Open the application
+3. Wait for the GitHub Actions workflow to complete:
+   - The workflow will build the application and deploy it to GitHub Pages
+   - You can check the status of the workflow at https://github.com/AISSA232300/agritech/actions
 
-### Manual Deployment
-
-1. Create a Heroku account: https://signup.heroku.com/
-2. Install the Heroku CLI: https://devcenter.heroku.com/articles/heroku-cli
-3. Login to Heroku: `heroku login`
-4. Create a new Heroku app: `heroku create agritech-bechar`
-5. Add a MySQL database: `heroku addons:create jawsdb:kitefin`
-6. Push to Heroku: `git push heroku main`
-7. Run migrations: `heroku run php artisan migrate --force`
-8. Run seeders: `heroku run php artisan db:seed`
-9. Set environment variables:
-   ```bash
-   heroku config:set APP_KEY=base64:ZMOj5f5ZpC+y51TgTc2W6tIxofnVXw46jSPe24Emorc=
-   heroku config:set APP_ENV=production
-   heroku config:set APP_DEBUG=false
-   heroku config:set APP_NAME="AgriTech Béchar"
-   ```
-10. Open your application: `heroku open`
+4. Access your application at https://aissa232300.github.io/agritech/
 
 ## License
 
