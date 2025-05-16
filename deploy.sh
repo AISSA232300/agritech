@@ -36,7 +36,7 @@ heroku config:set APP_NAME="AgriTech Béchar"
 
 # Push to Heroku
 echo -e "${YELLOW}Pushing code to Heroku...${NC}"
-git push heroku master
+git push heroku main
 
 # Run migrations and seeders
 echo -e "${YELLOW}Running migrations and seeders...${NC}"

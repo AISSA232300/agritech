@@ -23,8 +23,8 @@ AgriTech Béchar is a Laravel-based application for agricultural technology mana
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/AISSA232300/agritech-bechar.git
-   cd agritech-bechar
+   git clone https://github.com/AISSA232300/agritech.git
+   cd agritech
    ```
 
 2. Install dependencies:
@@ -76,14 +76,15 @@ AgriTech Béchar is a Laravel-based application for agricultural technology mana
 
 1. Create a GitHub repository:
    - Go to GitHub: https://github.com/new
-   - Name the repository: `agritech-bechar`
+   - Name the repository: `agritech`
    - Choose "Public" visibility
    - Click "Create repository"
 
 2. Push your code to GitHub:
    ```bash
-   git remote add origin https://github.com/AISSA232300/agritech-bechar.git
-   git push -u origin master
+   git remote add origin https://github.com/AISSA232300/agritech.git
+   git branch -M main
+   git push -u origin main
    ```
 
 3. Use the deployment script:
@@ -107,7 +108,7 @@ AgriTech Béchar is a Laravel-based application for agricultural technology mana
 3. Login to Heroku: `heroku login`
 4. Create a new Heroku app: `heroku create agritech-bechar`
 5. Add a MySQL database: `heroku addons:create jawsdb:kitefin`
-6. Push to Heroku: `git push heroku master`
+6. Push to Heroku: `git push heroku main`
 7. Run migrations: `heroku run php artisan migrate --force`
 8. Run seeders: `heroku run php artisan db:seed`
 9. Set environment variables:
