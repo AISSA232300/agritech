@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="400" height="300" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background with gradient -->
+  <defs>
+    <linearGradient id="skyGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#87CEEB" />
+      <stop offset="100%" stop-color="#E0F7FA" />
+    </linearGradient>
+    <radialGradient id="sunGlow" cx="300" cy="80" r="40" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FFD700" />
+      <stop offset="100%" stop-color="#FFA500" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+
+  <rect width="400" height="300" fill="url(#skyGradient)" rx="8" ry="8"/>
+
+  <!-- Sun with enhanced animation -->
+  <circle cx="300" cy="80" r="35" fill="url(#sunGlow)">
+    <animate attributeName="r" values="35;38;35" dur="2s" repeatCount="indefinite" />
+  </circle>
+  <circle cx="300" cy="80" r="25" fill="#FFD700">
+    <animate attributeName="opacity" values="0.8;1;0.8" dur="1.5s" repeatCount="indefinite" />
+    <animate attributeName="r" values="25;27;25" dur="2s" repeatCount="indefinite" />
+  </circle>
+
+  <!-- Clouds with enhanced animation -->
+  <g fill="#ffffff" stroke="#e0e0e0" stroke-width="1">
+    <!-- Cloud 1 -->
+    <ellipse cx="100" cy="70" rx="30" ry="20">
+      <animate attributeName="cx" values="100;120;100" dur="8s" repeatCount="indefinite" />
+    </ellipse>
+    <ellipse cx="130" cy="70" rx="30" ry="25">
+      <animate attributeName="cx" values="130;150;130" dur="8s" repeatCount="indefinite" />
+    </ellipse>
+    <ellipse cx="160" cy="70" rx="25" ry="15">
+      <animate attributeName="cx" values="160;180;160" dur="8s" repeatCount="indefinite" />
+    </ellipse>
+
+    <!-- Cloud 2 -->
+    <ellipse cx="250" cy="50" rx="20" ry="15">
+      <animate attributeName="cx" values="250;240;250" dur="10s" repeatCount="indefinite" />
+    </ellipse>
+    <ellipse cx="270" cy="50" rx="15" ry="12">
+      <animate attributeName="cx" values="270;260;270" dur="10s" repeatCount="indefinite" />
+    </ellipse>
+  </g>
+
+  <!-- Ground with gradient -->
+  <defs>
+    <linearGradient id="groundGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#4CAF50" />
+      <stop offset="50%" stop-color="#8BC34A" />
+      <stop offset="100%" stop-color="#4CAF50" />
+    </linearGradient>
+  </defs>
+  <rect x="0" y="200" width="400" height="100" fill="url(#groundGradient)" opacity="0.8"/>
+
+  <!-- Trees with enhanced animation -->
+  <g>
+    <!-- Tree 1 -->
+    <rect x="80" y="170" width="10" height="30" fill="#795548">
+      <animate attributeName="height" values="30;31;30" dur="3s" repeatCount="indefinite" />
+    </rect>
+    <circle cx="85" cy="150" r="20" fill="#388E3C">
+      <animate attributeName="r" values="20;23;20" dur="3s" repeatCount="indefinite" />
+      <animate attributeName="cy" values="150;148;150" dur="3s" repeatCount="indefinite" />
+    </circle>
+
+    <!-- Tree 2 -->
+    <rect x="150" y="180" width="8" height="20" fill="#795548">
+      <animate attributeName="height" values="20;21;20" dur="4s" repeatCount="indefinite" />
+    </rect>
+    <circle cx="154" cy="165" r="15" fill="#388E3C">
+      <animate attributeName="r" values="15;18;15" dur="4s" repeatCount="indefinite" />
+      <animate attributeName="cy" values="165;163;165" dur="4s" repeatCount="indefinite" />
+    </circle>
+
+    <!-- Tree 3 -->
+    <rect x="220" y="175" width="12" height="25" fill="#795548">
+      <animate attributeName="height" values="25;26;25" dur="5s" repeatCount="indefinite" />
+    </rect>
+    <circle cx="226" cy="155" r="22" fill="#388E3C">
+      <animate attributeName="r" values="22;25;22" dur="5s" repeatCount="indefinite" />
+      <animate attributeName="cy" values="155;153;155" dur="5s" repeatCount="indefinite" />
+    </circle>
+  </g>
+
+  <!-- Plants with enhanced animation -->
+  <g>
+    <path d="M30,200 Q40,180 50,200" stroke="#388E3C" stroke-width="2" fill="none">
+      <animate attributeName="d" values="M30,200 Q40,180 50,200;M30,200 Q40,170 50,200;M30,200 Q40,180 50,200" dur="2s" repeatCount="indefinite" />
+    </path>
+    <path d="M35,200 Q45,170 55,200" stroke="#4CAF50" stroke-width="2" fill="none">
+      <animate attributeName="d" values="M35,200 Q45,170 55,200;M35,200 Q45,160 55,200;M35,200 Q45,170 55,200" dur="2.5s" repeatCount="indefinite" />
+    </path>
+
+    <path d="M280,200 Q290,180 300,200" stroke="#388E3C" stroke-width="2" fill="none">
+      <animate attributeName="d" values="M280,200 Q290,180 300,200;M280,200 Q290,170 300,200;M280,200 Q290,180 300,200" dur="2.2s" repeatCount="indefinite" />
+    </path>
+    <path d="M285,200 Q295,170 305,200" stroke="#4CAF50" stroke-width="2" fill="none">
+      <animate attributeName="d" values="M285,200 Q295,170 305,200;M285,200 Q295,160 305,200;M285,200 Q295,170 305,200" dur="2.7s" repeatCount="indefinite" />
+    </path>
+  </g>
+
+  <!-- More plants -->
+  <g>
+    <path d="M100,200 Q110,185 120,200" stroke="#388E3C" stroke-width="2" fill="none">
+      <animate attributeName="d" values="M100,200 Q110,185 120,200;M100,200 Q110,175 120,200;M100,200 Q110,185 120,200" dur="2.3s" repeatCount="indefinite" />
+    </path>
+    <path d="M180,200 Q190,180 200,200" stroke="#4CAF50" stroke-width="2" fill="none">
+      <animate attributeName="d" values="M180,200 Q190,180 200,200;M180,200 Q190,170 200,200;M180,200 Q190,180 200,200" dur="2.1s" repeatCount="indefinite" />
+    </path>
+    <path d="M330,200 Q340,185 350,200" stroke="#388E3C" stroke-width="2" fill="none">
+      <animate attributeName="d" values="M330,200 Q340,185 350,200;M330,200 Q340,175 350,200;M330,200 Q340,185 350,200" dur="2.4s" repeatCount="indefinite" />
+    </path>
+  </g>
+
+  <!-- Water droplets with enhanced animation -->
+  <g>
+    <circle cx="120" cy="130" r="3" fill="#2196F3" opacity="0.8">
+      <animate attributeName="cy" values="130;200;130" dur="1.5s" begin="0.2s" repeatCount="indefinite" />
+      <animate attributeName="opacity" values="0.8;0;0.8" dur="1.5s" begin="0.2s" repeatCount="indefinite" />
+      <animate attributeName="r" values="3;2;3" dur="1.5s" begin="0.2s" repeatCount="indefinite" />
+    </circle>
+    <circle cx="190" cy="110" r="3" fill="#2196F3" opacity="0.8">
+      <animate attributeName="cy" values="110;200;110" dur="1.8s" begin="0s" repeatCount="indefinite" />
+      <animate attributeName="opacity" values="0.8;0;0.8" dur="1.8s" begin="0s" repeatCount="indefinite" />
+      <animate attributeName="r" values="3;2;3" dur="1.8s" begin="0s" repeatCount="indefinite" />
+    </circle>
+    <circle cx="260" cy="120" r="3" fill="#2196F3" opacity="0.8">
+      <animate attributeName="cy" values="120;200;120" dur="1.6s" begin="0.5s" repeatCount="indefinite" />
+      <animate attributeName="opacity" values="0.8;0;0.8" dur="1.6s" begin="0.5s" repeatCount="indefinite" />
+      <animate attributeName="r" values="3;2;3" dur="1.6s" begin="0.5s" repeatCount="indefinite" />
+    </circle>
+    <circle cx="85" cy="100" r="3" fill="#2196F3" opacity="0.8">
+      <animate attributeName="cy" values="100;200;100" dur="1.7s" begin="0.7s" repeatCount="indefinite" />
+      <animate attributeName="opacity" values="0.8;0;0.8" dur="1.7s" begin="0.7s" repeatCount="indefinite" />
+      <animate attributeName="r" values="3;2;3" dur="1.7s" begin="0.7s" repeatCount="indefinite" />
+    </circle>
+    <circle cx="320" cy="110" r="3" fill="#2196F3" opacity="0.8">
+      <animate attributeName="cy" values="110;200;110" dur="1.9s" begin="0.3s" repeatCount="indefinite" />
+      <animate attributeName="opacity" values="0.8;0;0.8" dur="1.9s" begin="0.3s" repeatCount="indefinite" />
+      <animate attributeName="r" values="3;2;3" dur="1.9s" begin="0.3s" repeatCount="indefinite" />
+    </circle>
+  </g>
+
+  <!-- Birds -->
+  <g>
+    <path d="M50,40 Q55,35 60,40 Q65,35 70,40" stroke="#333" stroke-width="1" fill="none">
+      <animate attributeName="d" values="M50,40 Q55,35 60,40 Q65,35 70,40;M50,45 Q55,40 60,45 Q65,40 70,45;M50,40 Q55,35 60,40 Q65,35 70,40" dur="2s" repeatCount="indefinite" />
+      <animate attributeName="transform" type="translate" values="0,0; 330,0; 0,0" dur="20s" repeatCount="indefinite" />
+    </path>
+    <path d="M80,50 Q85,45 90,50 Q95,45 100,50" stroke="#333" stroke-width="1" fill="none">
+      <animate attributeName="d" values="M80,50 Q85,45 90,50 Q95,45 100,50;M80,55 Q85,50 90,55 Q95,50 100,55;M80,50 Q85,45 90,50 Q95,45 100,50" dur="2s" repeatCount="indefinite" />
+      <animate attributeName="transform" type="translate" values="0,0; 300,0; 0,0" dur="25s" repeatCount="indefinite" />
+    </path>
+  </g>
+</svg>

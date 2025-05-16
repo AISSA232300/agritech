@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Management - AgriTech Béchar</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #88c9a1;
+            --secondary-color: #f7a278;
+            --background-color: #f5f2e5;
+            --card-color: #ffffff;
+            --text-color: #333333;
+        }
+
+        body {
+            background-color: var(--background-color);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .back-btn {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .back-btn:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+            color: white;
+        }
+
+        .card {
+            background-color: var(--card-color);
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 1px dashed #e0e0e0;
+            padding-bottom: 15px;
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin: 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .btn-add-user {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 8px 20px;
+            font-weight: 500;
+        }
+
+        .btn-add-user:hover {
+            background-color: #e8916a;
+            color: white;
+        }
+
+        .search-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .search-input {
+            position: relative;
+            flex-grow: 1;
+        }
+
+        .search-input input {
+            padding-left: 40px;
+            border-radius: 20px;
+            border: 1px solid #e0e0e0;
+            background-color: #f8f9fa;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6c757d;
+        }
+
+        .filter-dropdown {
+            width: 200px;
+        }
+
+        .filter-dropdown .form-select {
+            border-radius: 20px;
+            border: 1px solid #e0e0e0;
+            background-color: #f8f9fa;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+
+        .table th {
+            border-bottom: 1px solid #dee2e6;
+            padding: 12px 15px;
+            font-weight: 600;
+            color: #495057;
+        }
+
+        .table td {
+            padding: 12px 15px;
+            vertical-align: middle;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .table tr:hover {
+            background-color: rgba(136, 201, 161, 0.05);
+        }
+
+        .status-indicator {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 5px;
+        }
+
+        .status-online {
+            background-color: #4caf50;
+        }
+
+        .status-offline {
+            background-color: #9e9e9e;
+        }
+
+        .role-badge {
+            background-color: #ffc107;
+            color: #212529;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            display: inline-block;
+        }
+
+        .action-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 4px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 3px;
+            border: 1px solid;
+            cursor: pointer;
+        }
+
+        .edit-btn {
+            color: #0d6efd;
+            border-color: #0d6efd;
+        }
+
+        .delete-btn {
+            color: #dc3545;
+            border-color: #dc3545;
+        }
+
+        .password-dots {
+            letter-spacing: 2px;
+            font-weight: bold;
+        }
+
+        .password-toggle {
+            background: none;
+            border: none;
+            color: #6c757d;
+            cursor: pointer;
+            margin-left: 5px;
+        }
+
+        .password-toggle:hover {
+            color: #495057;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-4 mb-5">
+        <div class="header">
+            <a href="dashboard.html" class="back-btn">
+                <i class="fas fa-arrow-left me-2"></i> Dashboard
+            </a>
+            <h1><i class="fas fa-users me-2"></i> User Management</h1>
+            <div>🌵 Bechar Region - Algeria 🌞</div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">
+                    <i class="fas fa-users me-2"></i> User List
+                </h5>
+                <button class="btn-add-user" id="addUserBtn">
+                    <i class="fas fa-user-plus me-1"></i> Add User
+                </button>
+            </div>
+
+            <div class="search-container">
+                <div class="search-input">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" class="form-control" id="searchInput" placeholder="Rechercher par nom ou email...">
+                </div>
+                <div class="filter-dropdown">
+                    <select class="form-select" id="roleFilter">
+                        <option value="">Tous les rôles</option>
+                        <option value="gestionnaire">gestionnaire</option>
+                        <option value="employe">employe</option>
+                    </select>
+                </div>
+                <div class="filter-dropdown">
+                    <select class="form-select" id="statusFilter">
+                        <option value="">Tous les statuts</option>
+                        <option value="online">En ligne</option>
+                        <option value="offline">Hors ligne</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Statut</th>
+                            <th>Nom</th>
+                            <th>Email</th>
+                            <th>Rôle</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="userTableBody">
+                        <!-- Users will be loaded here dynamically -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add/Edit User Modal -->
+    <div class="modal fade" id="userModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color: var(--primary-color); color: white;">
+                    <h5 class="modal-title" id="modalTitle">Add New User</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="userForm">
+                        <input type="hidden" id="userId">
+                        <div class="mb-3">
+                            <label for="userName" class="form-label">Name</label>
+                            <input type="text" class="form-control" id="userName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="userEmail" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="userEmail" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="userPassword" class="form-label">Password</label>
+                            <div class="input-group">
+                                <input type="password" class="form-control" id="userPassword" required>
+                                <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="userRole" class="form-label">Role</label>
+                            <select class="form-select" id="userRole" required>
+                                <option value="gestionnaire">gestionnaire</option>
+                                <option value="employe">employe</option>
+                            </select>
+                        </div>
+                        <div class="text-end mt-4">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn" style="background-color: var(--primary-color); color: white;">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/role-permissions.js"></script>
+    <script>
+        let users = [];
+        let userModal;
+
+        // Initialize everything when the DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            userModal = new bootstrap.Modal(document.getElementById('userModal'));
+
+            // Check if user has permission to access this page
+            const userRole = window.Auth.getCurrentUserRole();
+            if (userRole !== 'gestionnaire' && userRole !== 'admin') {
+                // Redirect to employe dashboard if user is not a gestionnaire
+                alert('Vous n\'avez pas la permission d\'accéder à cette page.');
+                window.location.href = 'dashboard_employe.html';
+                return;
+            }
+
+            // Load users from database first
+            loadUsersFromDatabase();
+
+            // Add event listeners
+            document.getElementById('searchInput').addEventListener('input', renderUserTable);
+            document.getElementById('roleFilter').addEventListener('change', renderUserTable);
+            document.getElementById('statusFilter').addEventListener('change', renderUserTable);
+            document.getElementById('addUserBtn').addEventListener('click', showAddUserModal);
+            document.getElementById('userForm').addEventListener('submit', saveUser);
+            document.getElementById('togglePassword').addEventListener('click', togglePasswordVisibility);
+
+            // Initialize role-based permissions
+            if (window.RolePermissions && typeof window.RolePermissions.initRolePermissions === 'function') {
+                window.RolePermissions.initRolePermissions();
+            }
+        });
+
+        // Function to load users from database
+        function loadUsersFromDatabase() {
+            console.log('Loading users from database...');
+
+            // Show loading indicator
+            const tableBody = document.getElementById('userTableBody');
+            tableBody.innerHTML = '<tr><td colspan="6" class="text-center py-4"><div class="spinner-border text-primary" role="status"></div><p class="mt-2">Chargement des utilisateurs...</p></td></tr>';
+
+            // Use the absolute URL to ensure we're hitting the correct endpoint
+            const apiUrl = window.location.href.substring(0, window.location.href.lastIndexOf('/')) + '/api/users.php';
+            console.log('API URL:', apiUrl);
+
+            // Direct database connection with timestamp to prevent caching
+            fetch(apiUrl + '?t=' + new Date().getTime(), {
+                method: 'GET',
+                headers: {
+                    'Cache-Control': 'no-cache, no-store, must-revalidate',
+                    'Pragma': 'no-cache',
+                    'Expires': '0'
+                }
+            })
+            .then(response => {
+                console.log('Response status:', response.status);
+                // Log the raw response for debugging
+                return response.text().then(text => {
+                    console.log('Raw response:', text);
+                    try {
+                        // Try to parse as JSON
+                        const data = JSON.parse(text);
+                        return { ok: response.ok, data: data };
+                    } catch (e) {
+                        console.error('Error parsing JSON:', e);
+                        return { ok: response.ok, text: text, error: e };
+                    }
+                });
+            })
+            .then(result => {
+                if (!result.ok) {
+                    throw new Error('Network response was not ok: ' + (result.text || 'Unknown error'));
+                }
+
+                if (!result.data) {
+                    throw new Error('Invalid response format');
+                }
+
+                console.log('Parsed API response:', result.data);
+
+                if (result.data.success && Array.isArray(result.data.users)) {
+                    users = result.data.users; // Update the global users variable
+                    console.log('Users loaded:', users);
+
+                    if (users.length === 0) {
+                        tableBody.innerHTML = '<tr><td colspan="6" class="text-center">Aucun utilisateur trouvé dans la base de données</td></tr>';
+                    } else {
+                        renderUserTable();
+                    }
+                } else {
+                    console.warn('No users returned from API or invalid format:', result.data);
+                    users = [];
+                    tableBody.innerHTML = '<tr><td colspan="6" class="text-center">Aucun utilisateur trouvé ou format de réponse invalide</td></tr>';
+                }
+            })
+            .catch(error => {
+                console.error('Error loading users from database:', error);
+
+                // Show error message with more details
+                tableBody.innerHTML = `<tr><td colspan="6" class="text-center text-danger">Erreur de connexion à la base de données: ${error.message}</td></tr>`;
+                users = [];
+            });
+        }
+
+        function renderUserTable() {
+            console.log('Rendering user table with users:', users);
+
+            if (!Array.isArray(users) || users.length === 0) {
+                document.getElementById('userTableBody').innerHTML = '<tr><td colspan="6" class="text-center py-3">Aucun utilisateur trouvé</td></tr>';
+                return;
+            }
+
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const roleFilter = document.getElementById('roleFilter').value;
+            const statusFilter = document.getElementById('statusFilter').value;
+
+            // Filter users with more robust error handling
+            const filteredUsers = users.filter(user => {
+                if (!user) return false;
+
+                // Handle search term matching
+                const nameMatch = user.name ? user.name.toLowerCase().includes(searchTerm) : false;
+                const emailMatch = user.email ? user.email.toLowerCase().includes(searchTerm) : false;
+                const matchesSearch = nameMatch || emailMatch;
+
+                // Handle role matching with fallbacks
+                let matchesRole = true;
+                if (roleFilter) {
+                    if (roleFilter === 'gestionnaire') {
+                        matchesRole = user.role_name === 'gestionnaire' ||
+                                     user.role_name === 'gestionaire' ||
+                                     user.role_id === 2;
+                    } else if (roleFilter === 'employe') {
+                        matchesRole = user.role_name === 'employe' ||
+                                     user.role_name === 'emploie' ||
+                                     user.role_id === 3;
+                    } else {
+                        matchesRole = user.role_name === roleFilter;
+                    }
+                }
+
+                // Handle status matching with fallbacks
+                let matchesStatus = true;
+                if (statusFilter) {
+                    const status = user.status || 'Hors ligne';
+                    if (statusFilter === 'online') {
+                        matchesStatus = status === 'En ligne';
+                    } else if (statusFilter === 'offline') {
+                        matchesStatus = status === 'Hors ligne';
+                    }
+                }
+
+                return matchesSearch && matchesRole && matchesStatus;
+            });
+
+            console.log('Filtered users:', filteredUsers);
+
+            const tbody = document.getElementById('userTableBody');
+
+            if (filteredUsers.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" class="text-center py-3">Aucun utilisateur ne correspond aux critères de recherche</td></tr>';
+                return;
+            }
+
+            // Generate table rows with more robust error handling
+            tbody.innerHTML = filteredUsers.map(user => {
+                // Default values for missing data
+                const userId = user.id || '';
+                const userName = user.name || 'Sans nom';
+                const userEmail = user.email || '';
+                const userStatus = user.status || 'Hors ligne';
+                const isOnline = userStatus === 'En ligne';
+
+                // Determine role display
+                let roleDisplay = 'employe'; // Default
+                if (user.role_name === 'gestionaire' || user.role_name === 'gestionnaire' || user.role_id === 2) {
+                    roleDisplay = 'gestionnaire';
+                } else if (user.role_name === 'emploie' || user.role_name === 'employe' || user.role_id === 3) {
+                    roleDisplay = 'employe';
+                } else if (user.role_name) {
+                    roleDisplay = user.role_name;
+                }
+
+                return `
+                <tr>
+                    <td>${userId}</td>
+                    <td>
+                        <span class="status-indicator ${isOnline ? 'status-online' : 'status-offline'}"></span>
+                        ${userStatus}
+                    </td>
+                    <td>${userName}</td>
+                    <td>${userEmail}</td>
+                    <td><span class="role-badge">${roleDisplay}</span></td>
+                    <td>
+                        <button class="action-btn edit-btn" onclick="editUser('${userId}')">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="action-btn delete-btn" onclick="deleteUser('${userId}')">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+                `;
+            }).join('');
+        }
+
+        function showAddUserModal() {
+            document.getElementById('modalTitle').textContent = 'Add New User';
+            document.getElementById('userForm').reset();
+            document.getElementById('userId').value = '';
+            userModal.show();
+        }
+
+        function editUser(userId) {
+            const user = users.find(u => u.id == userId);
+            if (user) {
+                document.getElementById('modalTitle').textContent = 'Edit User';
+                document.getElementById('userId').value = user.id;
+                document.getElementById('userName').value = user.name;
+                document.getElementById('userEmail').value = user.email || '';
+                document.getElementById('userPassword').value = ''; // Don't show password for security
+
+                // Set the correct role value
+                let roleValue = 'employe'; // Default
+                if (user.role_name === 'gestionaire' || user.role_id === 2) {
+                    roleValue = 'gestionnaire';
+                } else if (user.role_name === 'emploie' || user.role_id === 3) {
+                    roleValue = 'employe';
+                } else if (user.role_name) {
+                    roleValue = user.role_name;
+                }
+                document.getElementById('userRole').value = roleValue;
+
+                userModal.show();
+            }
+        }
+
+        function saveUser(e) {
+            e.preventDefault();
+
+            // Show loading state
+            const saveButton = document.querySelector('#userForm button[type="submit"]');
+            const originalButtonText = saveButton.innerHTML;
+            saveButton.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Enregistrement...';
+            saveButton.disabled = true;
+
+            const userId = document.getElementById('userId').value;
+            const userName = document.getElementById('userName').value.trim();
+            const userEmail = document.getElementById('userEmail').value.trim();
+            const userPassword = document.getElementById('userPassword').value.trim();
+            const userRole = document.getElementById('userRole').value;
+
+            // Validate inputs
+            if (!userName || !userEmail || (!userId && !userPassword)) {
+                alert('Veuillez remplir tous les champs obligatoires.');
+                saveButton.innerHTML = originalButtonText;
+                saveButton.disabled = false;
+                return;
+            }
+
+            // Generate a username from the name - ensure it's unique with timestamp
+            const timestamp = new Date().getTime().toString().slice(-4);
+            const username = userName.toLowerCase().replace(/\s+/g, '_') + '_' + timestamp;
+
+            // Prepare user data with all required fields
+            const userData = {
+                name: userName,
+                email: userEmail,
+                username: username,
+                role_id: userRole === 'gestionnaire' ? 2 : 3,
+                status: 'Hors ligne',
+                is_active: 1
+            };
+
+            // Add password - always required for new users
+            // For updates, only add if provided
+            if (userId) {
+                // Updating existing user
+                if (userPassword) {
+                    userData.password = userPassword;
+                }
+            } else {
+                // New user - password is required
+                userData.password = userPassword;
+            }
+
+            // Use the absolute URL to ensure we're hitting the correct endpoint
+            const baseUrl = window.location.href.substring(0, window.location.href.lastIndexOf('/')) + '/api/users.php';
+            let url = baseUrl;
+            let method = 'POST';
+
+            // If updating, add the ID and use PUT method
+            if (userId) {
+                url += `?id=${userId}`;
+                method = 'PUT';
+
+                // Preserve the status if updating
+                const existingUser = users.find(u => u.id == userId);
+                if (existingUser) {
+                    userData.status = existingUser.status;
+                }
+            }
+
+            console.log('API URL:', url);
+            console.log('Sending user data:', userData);
+
+            // Call the API with better error handling
+            fetch(url, {
+                method: method,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Cache-Control': 'no-cache, no-store, must-revalidate',
+                    'Pragma': 'no-cache',
+                    'Expires': '0'
+                },
+                body: JSON.stringify(userData)
+            })
+            .then(response => {
+                console.log('Response status:', response.status);
+
+                // Log the raw response for debugging
+                return response.text().then(text => {
+                    console.log('Raw response:', text);
+                    try {
+                        // Try to parse as JSON
+                        const data = text ? JSON.parse(text) : null;
+                        return {
+                            ok: response.ok,
+                            status: response.status,
+                            data: data
+                        };
+                    } catch (e) {
+                        console.error('Error parsing JSON:', e);
+                        return {
+                            ok: response.ok,
+                            status: response.status,
+                            data: null,
+                            text: text,
+                            error: e
+                        };
+                    }
+                });
+            })
+            .then(result => {
+                console.log('Parsed response:', result);
+
+                if (!result.ok) {
+                    const errorMsg = result.data && result.data.message
+                        ? result.data.message
+                        : `Error ${result.status}: ${result.text || 'Unknown error'}`;
+                    throw new Error(errorMsg);
+                }
+
+                if (result.data && result.data.success) {
+                    // Update the UI
+                    loadUsersFromDatabase();
+                    userModal.hide();
+
+                    // Show success message
+                    alert(userId ? 'Utilisateur mis à jour avec succès!' : 'Nouvel utilisateur ajouté avec succès!');
+                } else {
+                    throw new Error((result.data && result.data.message) || 'Unknown error occurred');
+                }
+            })
+            .catch(error => {
+                console.error('Error saving user:', error);
+                alert('Erreur lors de l\'enregistrement de l\'utilisateur: ' + error.message);
+            })
+            .finally(() => {
+                // Reset button state
+                saveButton.innerHTML = originalButtonText;
+                saveButton.disabled = false;
+            });
+        }
+
+        function deleteUser(userId) {
+            if (confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ?')) {
+                // Find the user row
+                const userRow = document.querySelector(`tr button[onclick="deleteUser('${userId}')"]`);
+
+                if (!userRow) {
+                    console.error('User row not found for ID:', userId);
+                    alert('Erreur: Ligne utilisateur non trouvée');
+                    return;
+                }
+
+                // Show loading state
+                const row = userRow.closest('tr');
+                row.classList.add('table-secondary');
+                row.style.opacity = '0.5';
+
+                console.log('Deleting user with ID:', userId);
+
+                // Use the absolute URL to ensure we're hitting the correct endpoint
+                const apiUrl = window.location.href.substring(0, window.location.href.lastIndexOf('/')) + '/api/users.php';
+                const deleteUrl = `${apiUrl}?id=${userId}&t=${new Date().getTime()}`;
+                console.log('Delete URL:', deleteUrl);
+
+                // Call the API to delete the user with better error handling
+                fetch(deleteUrl, {
+                    method: 'DELETE',
+                    headers: {
+                        'Cache-Control': 'no-cache, no-store, must-revalidate',
+                        'Pragma': 'no-cache',
+                        'Expires': '0'
+                    }
+                })
+                .then(response => {
+                    console.log('Delete response status:', response.status);
+
+                    // Log the raw response for debugging
+                    return response.text().then(text => {
+                        console.log('Raw delete response:', text);
+                        try {
+                            // Try to parse as JSON
+                            const data = text ? JSON.parse(text) : null;
+                            return {
+                                ok: response.ok,
+                                status: response.status,
+                                data: data
+                            };
+                        } catch (e) {
+                            console.error('Error parsing JSON:', e);
+                            return {
+                                ok: response.ok,
+                                status: response.status,
+                                data: null,
+                                text: text,
+                                error: e
+                            };
+                        }
+                    });
+                })
+                .then(result => {
+                    console.log('Delete parsed response:', result);
+
+                    if (!result.ok) {
+                        const errorMsg = result.data && result.data.message
+                            ? result.data.message
+                            : `Error ${result.status}: ${result.text || 'Unknown error'}`;
+                        throw new Error(errorMsg);
+                    }
+
+                    if (result.data && result.data.success) {
+                        // Update the UI
+                        loadUsersFromDatabase();
+
+                        // Show success message
+                        alert('Utilisateur supprimé avec succès!');
+                    } else {
+                        throw new Error((result.data && result.data.message) || 'Unknown error occurred');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error deleting user:', error);
+                    alert('Erreur lors de la suppression de l\'utilisateur: ' + error.message);
+
+                    // Reset row appearance
+                    row.classList.remove('table-secondary');
+                    row.style.opacity = '1';
+                });
+            }
+        }
+
+        function togglePasswordVisibility() {
+            const passwordField = document.getElementById('userPassword');
+            const icon = this.querySelector('i');
+
+            if (passwordField.type === 'password') {
+                passwordField.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                passwordField.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+
+        function toggleTablePassword(userId) {
+            const passwordSpan = document.getElementById(`pwd-${userId}`);
+            const eyeIcon = document.getElementById(`eye-${userId}`);
+
+            // For security reasons, we don't actually show the real password
+            // Instead, we just toggle between dots and a placeholder
+            if (passwordSpan.classList.contains('password-dots')) {
+                // Show a placeholder password
+                passwordSpan.textContent = '********';
+                passwordSpan.classList.remove('password-dots');
+                eyeIcon.classList.remove('fa-eye');
+                eyeIcon.classList.add('fa-eye-slash');
+
+                // Auto-hide after 5 seconds for security
+                setTimeout(() => {
+                    passwordSpan.textContent = '••••••••';
+                    passwordSpan.classList.add('password-dots');
+                    eyeIcon.classList.remove('fa-eye-slash');
+                    eyeIcon.classList.add('fa-eye');
+                }, 5000);
+            } else {
+                // Hide password
+                passwordSpan.textContent = '••••••••';
+                passwordSpan.classList.add('password-dots');
+                eyeIcon.classList.remove('fa-eye-slash');
+                eyeIcon.classList.add('fa-eye');
+            }
+        }
+    </script>
+</body>
+</html>

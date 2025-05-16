@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AgriTech Béchar - Plateforme de Gestion Agricole</title>
+
+  <!-- Styles -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="css/common-fonts.css" rel="stylesheet">
+  <link href="css/landing.css" rel="stylesheet">
+
+  <!-- Animation Libraries -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.9.6/lottie.min.js"></script>
+</head>
+<body>
+  <!-- Loader -->
+  <div class="loader-container">
+    <div class="loader">
+      <div class="loader-circle"></div>
+      <div class="loader-icon">
+        <i class="fas fa-seedling"></i>
+      </div>
+    </div>
+    <p class="loader-text">AgriTech Béchar</p>
+  </div>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="#">
+        <i class="fas fa-seedling me-2"></i>
+        <span class="lang-text" data-lang-key="platform_name">AgriTech Béchar</span>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link active" href="#home">
+              <span class="lang-text" data-lang-key="home">Accueil</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#features">
+              <span class="lang-text" data-lang-key="features">Fonctionnalités</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#about">
+              <span class="lang-text" data-lang-key="about">À propos</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#contact">
+              <span class="lang-text" data-lang-key="contact">Contact</span>
+            </a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="languageDropdown" role="button" data-bs-toggle="dropdown">
+              <i class="fas fa-globe"></i>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li>
+                <button class="dropdown-item language-btn" data-language="fr">
+                  <img src="https://flagcdn.com/w20/fr.png" alt="Français"> Français
+                </button>
+              </li>
+              <li>
+                <button class="dropdown-item language-btn" data-language="en">
+                  <img src="https://flagcdn.com/w20/gb.png" alt="English"> English
+                </button>
+              </li>
+              <li>
+                <button class="dropdown-item language-btn" data-language="ar">
+                  <img src="https://flagcdn.com/w20/dz.png" alt="العربية"> العربية
+                </button>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link login-btn" href="login.html">
+              Connexion
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section with Animation -->
+  <section id="home" class="hero-section">
+    <div class="hero-content">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-lg-6 order-lg-1 order-1">
+            <div class="hero-text-container">
+              <h1 class="hero-title">
+                AgriTech Béchar
+                <span class="hero-subtitle">Gestion Agricole Intelligente</span>
+              </h1>
+              <p class="hero-description">
+                Une plateforme innovante qui combine données météorologiques précises,
+                planification intelligente et gestion optimisée des ressources pour
+                l'agriculture en zone aride.
+              </p>
+              <div class="hero-buttons">
+                <a href="login.html" class="btn btn-primary btn-lg">
+                  Commencer
+                  <i class="fas fa-arrow-right ms-2"></i>
+                </a>
+                <a href="#features" class="btn btn-outline-light btn-lg ms-3">
+                  En savoir plus
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6 order-lg-2 order-2">
+            <div class="hero-animation-container">
+              <div id="hero-animation"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="scroll-down-container">
+      <a href="#features" class="scroll-down">
+        <span></span>
+        <span></span>
+        <span></span>
+      </a>
+    </div>
+  </section>
+
+  <!-- Features Section with Animation -->
+  <section id="features" class="features-section">
+    <div class="container">
+      <div class="section-header text-center">
+        <h2 class="section-title">Fonctionnalités Principales</h2>
+        <p class="section-subtitle">
+          Découvrez comment notre plateforme révolutionne l'agriculture en zone aride
+        </p>
+      </div>
+
+      <div class="row align-items-center mt-5">
+        <div class="col-lg-6 order-lg-2">
+          <div class="features-animation-container">
+            <div id="features-animation"></div>
+          </div>
+        </div>
+        <div class="col-lg-6 order-lg-1">
+          <div class="features-content">
+            <div class="feature-item">
+              <div class="feature-icon">
+                <i class="fas fa-cloud-sun-rain"></i>
+              </div>
+              <div class="feature-text">
+                <h3 class="feature-title">Données Météo Précises</h3>
+                <p class="feature-description">
+                  Accédez à des prévisions météorologiques précises pour votre zone agricole.
+                </p>
+              </div>
+            </div>
+
+            <div class="feature-item">
+              <div class="feature-icon">
+                <i class="fas fa-calendar-alt"></i>
+              </div>
+              <div class="feature-text">
+                <h3 class="feature-title">Planification Intelligente</h3>
+                <p class="feature-description">
+                  Planifiez vos activités agricoles en fonction des conditions météorologiques.
+                </p>
+              </div>
+            </div>
+
+            <div class="feature-item">
+              <div class="feature-icon">
+                <i class="fas fa-tint"></i>
+              </div>
+              <div class="feature-text">
+                <h3 class="feature-title">Gestion de l'Irrigation</h3>
+                <p class="feature-description">
+                  Optimisez votre consommation d'eau grâce à des systèmes intelligents.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Showcase Section with Enhanced Parallax -->
+  <section id="showcase" class="showcase-section">
+    <div class="parallax-wrapper">
+      <!-- Fixed background image with overlay - Updated to farming image -->
+      <div class="parallax-bg-fixed" style="background-image: url('https://images.unsplash.com/photo-1625246333195-78d9c38ad449?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2000&q=80');">
+        <div class="parallax-overlay"></div>
+      </div>
+
+      <!-- Moving parallax layers -->
+      <div class="parallax-layer layer-1"></div>
+      <div class="parallax-layer layer-2"></div>
+
+      <!-- Content container -->
+      <div class="parallax-content">
+        <div class="container">
+          <div class="row align-items-center">
+            <div class="col-lg-6">
+              <div class="showcase-content">
+                <h2 class="showcase-title">Technologie de Pointe</h2>
+                <p class="showcase-description">
+                  Notre plateforme utilise des technologies avancées pour vous offrir une expérience exceptionnelle.
+                </p>
+                <ul class="showcase-list">
+                  <li class="showcase-item">
+                    <i class="fas fa-check-circle"></i> Interface intuitive et moderne
+                  </li>
+                  <li class="showcase-item">
+                    <i class="fas fa-check-circle"></i> Visualisation des données
+                  </li>
+                  <li class="showcase-item">
+                    <i class="fas fa-check-circle"></i> Algorithmes d'optimisation
+                  </li>
+                  <li class="showcase-item">
+                    <i class="fas fa-check-circle"></i> Support multilingue
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="showcase-animation-container">
+                <div id="showcase-animation"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Green Field Animation Section with Enhanced Parallax -->
+  <section id="green-field" class="green-field-section">
+    <div class="parallax-wrapper green-parallax">
+      <!-- Fixed background image with overlay - Updated to farming image -->
+      <div class="parallax-bg-fixed" style="background-image: url('https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2000&q=80');">
+        <div class="parallax-overlay green-overlay"></div>
+      </div>
+
+      <!-- Moving parallax layers -->
+      <div class="parallax-layer green-layer-1"></div>
+      <div class="parallax-layer green-layer-2"></div>
+
+      <!-- Content container -->
+      <div class="parallax-content">
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-lg-8 text-center">
+              <h2 class="green-field-title">
+                Agriculture Moderne
+              </h2>
+              <p class="green-field-description">
+                Rejoignez des centaines d'agriculteurs qui ont déjà transformé leur approche
+                grâce à notre plateforme innovante.
+              </p>
+              <div id="green-field-animation"></div>
+              <a href="login.html" class="btn btn-light btn-lg mt-4">
+                Commencer maintenant
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section id="about" class="about-section">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-6">
+          <div class="about-content">
+            <h2 class="about-title">À Propos de Notre Plateforme</h2>
+            <p class="about-description">
+              AgriTech Béchar est née de la volonté de soutenir les agriculteurs de la région de Béchar
+              face aux défis spécifiques de l'agriculture en zone aride.
+            </p>
+            <p class="about-description">
+              Notre équipe d'experts en agronomie, météorologie et développement logiciel a créé une
+              solution complète qui répond aux besoins uniques de cette région.
+            </p>
+            <div class="about-buttons">
+              <a href="login.html" class="btn btn-primary btn-lg">
+                Découvrir
+                <i class="fas fa-arrow-right ms-2"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="about-image">
+            <img src="https://images.unsplash.com/photo-1625246333195-78d9c38ad449?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Agriculture à Béchar" class="img-fluid rounded">
+            <div class="about-shape"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+  <!-- Contact Section -->
+  <section id="contact" class="contact-section">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-8 text-center">
+          <h2 class="contact-title">Contactez-nous</h2>
+          <p class="contact-description">
+            Vous avez des questions ou besoin d'assistance ? N'hésitez pas à nous contacter.
+          </p>
+        </div>
+      </div>
+      <div class="row justify-content-center mt-4">
+        <div class="col-lg-8">
+          <div class="contact-info">
+            <div class="contact-details">
+              <div class="contact-item">
+                <i class="fas fa-map-marker-alt"></i>
+                <p>Béchar, Algérie</p>
+              </div>
+              <div class="contact-item">
+                <i class="fas fa-envelope"></i>
+                <p>contact@agritech-bechar.dz</p>
+              </div>
+              <div class="contact-item">
+                <i class="fas fa-phone"></i>
+                <p>+213 123 456 789</p>
+              </div>
+            </div>
+            <div class="contact-social text-center mt-4">
+              <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+              <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+              <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+              <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-md-6">
+          <p class="footer-copyright">
+            &copy; 2023 AgriTech Béchar. Tous droits réservés.
+          </p>
+        </div>
+        <div class="col-md-6">
+          <div class="footer-language">
+            <span>Langue:</span>
+            <button class="footer-language-btn language-btn" data-language="fr">FR</button>
+            <button class="footer-language-btn language-btn" data-language="en">EN</button>
+            <button class="footer-language-btn language-btn" data-language="ar">AR</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Back to Top Button -->
+  <a href="#" class="back-to-top">
+    <i class="fas fa-arrow-up"></i>
+  </a>
+
+  <!-- Scripts - Animation-focused approach -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Wait for the DOM to be fully loaded
+    document.addEventListener('DOMContentLoaded', function() {
+      // Check for reduced motion
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        document.documentElement.classList.add('reduce-motion');
+      }
+
+      // Initialize UI components first
+      initLoader();
+      initNavbar();
+      initBackToTop();
+      initParallaxEffects();
+
+      // Initialize animations with a slight delay to ensure DOM is ready
+      setTimeout(function() {
+        initLottieAnimations(); // Load JSON animations
+      }, 100);
+
+      // Initialize language buttons
+      document.querySelectorAll('.language-btn').forEach(button => {
+        button.addEventListener('click', function() {
+          const language = this.getAttribute('data-language');
+          alert('Changing language to: ' + language);
+          // Here you would implement the language change functionality
+        });
+      });
+    });
+
+    // Initialize lazy loading for images and backgrounds
+    function initLazyLoading() {
+      // Use Intersection Observer for lazy loading
+      if ('IntersectionObserver' in window) {
+        // Lazy load images
+        const lazyImageObserver = new IntersectionObserver((entries, observer) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              const lazyImage = entry.target;
+
+              // Replace src with data-src
+              if (lazyImage.dataset.src) {
+                // Create a new image to preload
+                const img = new Image();
+
+                // When the image is loaded, update the src and add loaded class
+                img.onload = function() {
+                  lazyImage.src = lazyImage.dataset.src;
+                  lazyImage.classList.add('loaded');
+                  lazyImage.removeAttribute('data-src');
+                };
+
+                // Start loading the image
+                img.src = lazyImage.dataset.src;
+              }
+
+              // Stop observing the element after loading
+              observer.unobserve(lazyImage);
+            }
+          });
+        }, {
+          rootMargin: '200px 0px', // Start loading 200px before it comes into view
+          threshold: 0.01 // Trigger when 1% of the element is visible
+        });
+
+        // Observe all lazy images
+        document.querySelectorAll('.lazy-image').forEach(image => {
+          lazyImageObserver.observe(image);
+        });
+
+        // Lazy load background images
+        const lazyBackgroundObserver = new IntersectionObserver((entries, observer) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              const lazyBackground = entry.target;
+
+              // Replace background-image with data-background
+              if (lazyBackground.dataset.background) {
+                // Create a new image to preload
+                const img = new Image();
+
+                // When the image is loaded, update the background and remove lazy-bg class
+                img.onload = function() {
+                  lazyBackground.style.backgroundImage = `url('${lazyBackground.dataset.background}')`;
+                  lazyBackground.classList.remove('lazy-bg');
+                  lazyBackground.removeAttribute('data-background');
+
+                  // Dispatch a custom event that the background has been loaded
+                  lazyBackground.dispatchEvent(new CustomEvent('lazyloaded'));
+                };
+
+                // Start loading the image
+                img.src = lazyBackground.dataset.background;
+              }
+
+              // Stop observing the element after loading
+              observer.unobserve(lazyBackground);
+            }
+          });
+        }, {
+          rootMargin: '200px 0px', // Start loading 200px before it comes into view
+          threshold: 0.01 // Trigger when 1% of the element is visible
+        });
+
+        // Observe all lazy backgrounds
+        document.querySelectorAll('.lazy-bg').forEach(background => {
+          lazyBackgroundObserver.observe(background);
+        });
+      } else {
+        // Fallback for browsers that don't support Intersection Observer
+        // Load all images immediately
+        document.querySelectorAll('.lazy-image').forEach(image => {
+          if (image.dataset.src) {
+            image.src = image.dataset.src;
+            image.classList.add('loaded');
+          }
+        });
+
+        document.querySelectorAll('.lazy-bg').forEach(background => {
+          if (background.dataset.background) {
+            background.style.backgroundImage = `url('${background.dataset.background}')`;
+            background.classList.remove('lazy-bg');
+          }
+        });
+      }
+    }
+
+    // Ultra-lightweight loader (minimal JS)
+    function initLoader() {
+      const loader = document.querySelector('.loader-container');
+      if (!loader) return;
+
+      // Hide loader immediately
+      loader.classList.add('hidden');
+
+      // Remove from DOM after a short delay
+      setTimeout(() => {
+        loader.style.display = 'none';
+      }, 100);
+    }
+
+    // Ultra-lightweight navbar scroll effect (minimal JS)
+    function initNavbar() {
+      const navbar = document.querySelector('.navbar');
+      if (!navbar) return;
+
+      // Simple scroll handler for navbar background
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) {
+          navbar.classList.add('scrolled');
+        } else {
+          navbar.classList.remove('scrolled');
+        }
+      }, { passive: true });
+
+      // Initial state check
+      if (window.scrollY > 50) {
+        navbar.classList.add('scrolled');
+      }
+
+      // Simple click handler for nav links
+      document.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', function(e) {
+          // Remove active class from all links
+          document.querySelectorAll('.nav-link').forEach(l => {
+            l.classList.remove('active');
+          });
+
+          // Add active class to clicked link
+          this.classList.add('active');
+        });
+      });
+    }
+
+    // Ultra-lightweight back to top button (minimal JS)
+    function initBackToTop() {
+      const backToTopButton = document.querySelector('.back-to-top');
+      if (!backToTopButton) return;
+
+      // Show button after scrolling down 300px
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 300) {
+          backToTopButton.classList.add('active');
+        } else {
+          backToTopButton.classList.remove('active');
+        }
+      }, { passive: true });
+
+      // Simple click handler without animation
+      backToTopButton.addEventListener('click', (e) => {
+        e.preventDefault();
+        window.scrollTo(0, 0);
+      });
+
+      // Initial state check
+      if (window.scrollY > 300) {
+        backToTopButton.classList.add('active');
+      }
+    }
+
+    // Direct animation loader for JSON animations
+    function initLottieAnimations() {
+      // Check if Lottie is available
+      if (typeof lottie === 'undefined') {
+        console.error('Lottie library is not loaded!');
+        return;
+      }
+
+      // Animation mapping - which JSON file to use for each container
+      const animationMap = {
+        'hero-animation': 'animations/herosecanim.json',
+        'showcase-animation': 'animations/analyseanimation.json',
+        'features-animation': 'animations/futuresecanim.json',
+        'green-field-animation': 'animations/plantanim.json'
+      };
+
+      // Load animations one at a time to prevent CPU spikes
+      const containers = Array.from(document.querySelectorAll('#hero-animation, #features-animation, #showcase-animation, #green-field-animation'));
+      let currentIndex = 0;
+
+      function loadNextAnimation() {
+        if (currentIndex >= containers.length) return;
+
+        const container = containers[currentIndex];
+        currentIndex++;
+
+        if (!container) {
+          loadNextAnimation();
+          return;
+        }
+
+        // Get the animation path from the map
+        const animPath = animationMap[container.id];
+        if (!animPath) {
+          console.error(`No animation path defined for ${container.id}`);
+          loadNextAnimation();
+          return;
+        }
+
+        // Create animation with optimal settings
+        const animation = lottie.loadAnimation({
+          container: container,
+          renderer: 'svg',
+          loop: true,
+          autoplay: true, // Start playing immediately
+          path: animPath,
+          rendererSettings: {
+            progressiveLoad: true,
+            className: 'lottie-svg'
+          }
+        });
+
+        // Make animations lively
+        animation.setSpeed(1.0); // Full speed for lively animations
+
+        // Add loaded class
+        container.classList.add('animation-loaded');
+
+        // Apply hardware acceleration to SVG when loaded
+        animation.addEventListener('DOMLoaded', () => {
+          const svg = container.querySelector('svg');
+          if (svg) {
+            svg.style.transform = 'translateZ(0)';
+
+            // Add subtle animation to SVG elements to make them more lively
+            const paths = svg.querySelectorAll('path');
+            paths.forEach((path, index) => {
+              // Add subtle animation to some paths
+              if (index % 3 === 0) { // Only animate every third path to save performance
+                path.style.animation = `subtle-pulse ${2 + (index % 5)}s ease-in-out infinite alternate`;
+              }
+            });
+          }
+
+          // Load next animation after a delay
+          setTimeout(loadNextAnimation, 300);
+        });
+
+        // Only pause animation when completely out of viewport to save resources
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              if (animation.isPaused) {
+                animation.play();
+              }
+            } else {
+              if (!animation.isPaused) {
+                animation.pause();
+              }
+            }
+          });
+        }, {
+          threshold: 0,
+          rootMargin: '100px'
+        });
+
+        observer.observe(container);
+      }
+
+      // Start loading animations
+      loadNextAnimation();
+    }
+
+    // Ultra-lightweight parallax check (pure CSS implementation)
+    function initParallaxEffects() {
+      // Check for reduced motion preference or if device is likely low-powered
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const isLowPowered = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+      // If user prefers reduced motion or is on a mobile device, disable parallax
+      if (prefersReducedMotion || isLowPowered) {
+        document.documentElement.classList.add('reduce-motion');
+      }
+
+      // No JavaScript-based parallax - using CSS background-attachment: fixed instead
+    }
+  </script>
+</body>
+</html>

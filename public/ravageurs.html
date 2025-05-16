@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>🔥 Alertes Critiques - Pivots</title>
+
+  <!-- Styles -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="css/common-fonts.css" rel="stylesheet">
+  <link href="css/language.css" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary-color: #88c9a1;  /* Vert doux */
+      --secondary-color: #f7a278;  /* Orange pêche */
+      --accent-color: #6a8d92;  /* Bleu-vert */
+      --light-color: #f8f4e3;  /* Crème clair */
+      --dark-color: #5a5a5a;
+      --danger-color: #dc3545;  /* Rouge pour les alertes */
+      --warning-color: #ffc107;  /* Jaune pour les avertissements */
+    }
+
+    body {
+      background-color: var(--light-color);
+    }
+
+    .header {
+      background-color: var(--primary-color);
+      border-radius: 15px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      color: white;
+      text-align: center;
+    }
+
+    .header h1 {
+      color: white;
+      margin: 0;
+      font-size: 2.2rem;
+    }
+
+    .header .subtitle {
+      color: white;
+      font-size: 1.1rem;
+      opacity: 0.9;
+    }
+
+    .panel {
+      background-color: white;
+      border-radius: 15px;
+      padding: 20px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+    }
+
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+      padding-bottom: 10px;
+      border-bottom: 2px dashed var(--primary-color);
+    }
+
+    .panel-title {
+      color: var(--dark-color);
+      margin: 0;
+      font-size: 1.4rem;
+    }
+
+    .btn-cute {
+      background-color: var(--secondary-color);
+      color: white;
+      border: none;
+      border-radius: 50px;
+      padding: 8px 20px;
+      font-weight: 600;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+      transition: all 0.3s;
+    }
+
+    .btn-cute:hover {
+      background-color: #e8916a;
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 10px rgba(0,0,0,0.15);
+    }
+
+    .sidebar {
+      background-color: white;
+      border-radius: 15px;
+      padding: 10px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      height: 140vh; /* Prend toute la hauteur de la fenêtre */
+      position: sticky; /* Permet de garder la sidebar fixe lors du défilement */
+      top: 0; /* Positionne en haut de la fenêtre */
+    }
+
+    .sidebar-item {
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+    }
+
+    .sidebar-item:last-child {
+      border-bottom: none;
+    }
+
+    .sidebar-link {
+      color: var(--dark-color);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+    }
+
+    .sidebar-link:hover {
+      color: var(--primary-color);
+    }
+
+    .sidebar-icon {
+      margin-right: 10px;
+      width: 20px;
+      text-align: center;
+    }
+
+    /* Alert cards */
+    .alert-card {
+      border-radius: 10px;
+      margin-bottom: 15px;
+      padding: 15px;
+      border-left: 5px solid var(--danger-color);
+      background-color: rgba(220, 53, 69, 0.1);
+      transition: all 0.3s;
+    }
+
+    .alert-card.warning {
+      border-left-color: var(--warning-color);
+      background-color: rgba(255, 193, 7, 0.1);
+    }
+
+    .alert-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    .alert-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .alert-title {
+      font-weight: 600;
+      color: var(--danger-color);
+      margin: 0;
+      display: flex;
+      align-items: center;
+    }
+
+    .alert-card.warning .alert-title {
+      color: var(--warning-color);
+    }
+
+    .alert-title i {
+      margin-right: 10px;
+    }
+
+    .alert-timestamp {
+      font-size: 0.8rem;
+      color: var(--dark-color);
+      opacity: 0.7;
+    }
+
+    .alert-details {
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px dashed rgba(0,0,0,0.1);
+    }
+
+    .alert-value {
+      font-weight: 600;
+      color: var(--danger-color);
+    }
+
+    .alert-card.warning .alert-value {
+      color: var(--warning-color);
+    }
+
+    .alert-actions {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 10px;
+    }
+
+    .btn-sm {
+      padding: 0.25rem 0.5rem;
+      font-size: 0.875rem;
+      border-radius: 0.2rem;
+    }
+
+    .no-alerts {
+      text-align: center;
+      padding: 30px;
+      color: var(--dark-color);
+      opacity: 0.7;
+    }
+
+    .no-alerts i {
+      font-size: 3rem;
+      margin-bottom: 15px;
+      color: var(--primary-color);
+    }
+
+    /* Filter controls */
+    .filter-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .filter-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .filter-label {
+      font-weight: 600;
+      margin: 0;
+    }
+
+    .filter-select {
+      padding: 5px 10px;
+      border-radius: 5px;
+      border: 1px solid #ced4da;
+    }
+  </style>
+</head>
+<body>
+  <div class="container-fluid">
+    <div class="header">
+      <h1><i class="fas fa-exclamation-triangle me-2"></i> Alertes Critiques des Pivots</h1>
+      <div class="subtitle">🌵 Région de Béchar - Algérie 🌞</div>
+    </div>
+
+    <div class="row">
+      <!-- Sidebar -->
+      <div class="col-md-3">
+        <div class="sidebar">
+          <div class="text-center mb-4">
+            <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" class="cute-illustration rounded-circle border border-3 border-primary" alt="Profil" style="width: 100px; height: 100px;">
+            <h5 class="mt-2" id="userDisplayName">Utilisateur</h5>
+            <p class="text-muted small">Béchar, Algérie <span id="userRoleBadge" class="badge bg-secondary">Rôle</span></p>
+          </div>
+
+          <div class="sidebar-item">
+            <a href="dashboard.html" class="sidebar-link" id="dashboardLink">
+              <i class="fas fa-tachometer-alt sidebar-icon"></i>
+              <span class="lang-text" data-lang-key="dashboard">Tableau de Bord</span>
+            </a>
+          </div>
+          <div class="sidebar-item">
+            <a href="planification.html" class="sidebar-link">
+              <i class="fas fa-tint sidebar-icon"></i>
+              <span class="lang-text" data-lang-key="planning">Planification</span>
+            </a>
+          </div>
+          <div class="sidebar-item">
+            <a href="rapports.html" class="sidebar-link">
+              <i class="fas fa-chart-bar sidebar-icon"></i>
+              <span class="lang-text" data-lang-key="reports">Rapports</span>
+            </a>
+          </div>
+          <div class="sidebar-item">
+            <a href="ravageurs.html" class="sidebar-link active">
+              <i class="fas fa-bug sidebar-icon"></i>
+              <span class="lang-text" data-lang-key="pests">Alertes Pivots</span>
+            </a>
+          </div>
+
+          <hr>
+
+          <div class="sidebar-item">
+            <a href="profile.html" class="sidebar-link">
+              <i class="fas fa-user sidebar-icon"></i>
+              <span class="lang-text" data-lang-key="profile">Mon Profil</span>
+            </a>
+          </div>
+          <div class="sidebar-item management-only">
+            <a href="users.html" class="sidebar-link">
+              <i class="fas fa-users sidebar-icon"></i>
+              <span class="lang-text" data-lang-key="user_management">Gestion des Utilisateurs</span>
+            </a>
+          </div>
+          <div class="sidebar-item">
+            <a href="settings.html" class="sidebar-link">
+              <i class="fas fa-cog sidebar-icon"></i>
+              <span class="lang-text" data-lang-key="settings">Paramètres</span>
+            </a>
+          </div>
+          <div class="sidebar-item">
+            <a href="#" class="sidebar-link" id="logoutBtn">
+              <i class="fas fa-sign-out-alt sidebar-icon"></i>
+              <span class="lang-text" data-lang-key="logout">Déconnexion</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Content -->
+      <div class="col-md-9">
+        <div class="panel">
+          <div class="panel-header">
+            <h5 class="panel-title"><i class="fas fa-exclamation-circle me-2"></i>Alertes Critiques</h5>
+            <div>
+              <button class="btn-cute" onclick="refreshAlerts()">
+                <i class="fas fa-sync-alt me-1"></i> Actualiser
+              </button>
+            </div>
+          </div>
+
+          <div class="filter-controls">
+            <div class="filter-group">
+              <p class="filter-label">Filtrer par:</p>
+              <select id="severityFilter" class="filter-select" onchange="filterAlerts()">
+                <option value="all">Toutes les sévérités</option>
+                <option value="critical">Critique</option>
+                <option value="warning">Avertissement</option>
+              </select>
+              <select id="pivotFilter" class="filter-select" onchange="filterAlerts()">
+                <option value="all">Tous les pivots</option>
+                <!-- Pivots will be loaded dynamically -->
+              </select>
+              <select id="surfaceLossFilter" class="filter-select" onchange="filterAlerts()">
+                <option value="all">Toutes les pertes</option>
+                <option value="critical">Critique (>75%)</option>
+                <option value="high">Importante (50-75%)</option>
+                <option value="medium">Modérée (25-50%)</option>
+                <option value="low">Mineure (<25%)</option>
+              </select>
+            </div>
+            <div class="filter-group">
+              <input type="text" id="searchInput" class="form-control form-control-sm" placeholder="Rechercher..." onkeyup="filterAlerts()">
+            </div>
+          </div>
+
+          <div id="alertsContainer">
+            <!-- Alerts will be loaded here -->
+            <div class="text-center py-3">
+              <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Chargement...</span>
+              </div>
+              <p class="mt-2">Chargement des alertes...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Logout Confirmation Modal -->
+  <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="logoutModalLabel">Confirmation de déconnexion</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>Êtes-vous sûr de vouloir vous déconnecter ?</p>
+          <p class="text-muted small">Vous devrez vous reconnecter pour accéder à nouveau au tableau de bord.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+          <button type="button" class="btn btn-danger" id="confirmLogout">
+            <i class="fas fa-sign-out-alt me-2"></i>Se déconnecter
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/language.js"></script>
+
+  <script>
+    // Sample alerts data (in a real app, this would come from an API)
+    const sampleAlerts = [
+      {
+        id: 1,
+        pivot_id: 1,
+        pivot_name: "Pivot 1",
+        type: "temperature",
+        value: 150,
+        threshold: 50,
+        severity: "critical",
+        message: "Température extrêmement élevée détectée - Possible incendie",
+        timestamp: "2025-05-16T10:30:00",
+        status: "active",
+        total_surface: 25,
+        affected_surface: 18,
+        surface_loss_percent: 72
+      },
+      {
+        id: 2,
+        pivot_id: 2,
+        pivot_name: "Pivot 2",
+        type: "pressure",
+        value: 0,
+        threshold: 10,
+        severity: "critical",
+        message: "Pression d'eau nulle - Pivot potentiellement perdu",
+        timestamp: "2025-05-16T09:45:00",
+        status: "active",
+        total_surface: 30,
+        affected_surface: 30,
+        surface_loss_percent: 100
+      },
+      {
+        id: 3,
+        pivot_id: 3,
+        pivot_name: "Pivot 3",
+        type: "humidity",
+        value: 5,
+        threshold: 20,
+        severity: "warning",
+        message: "Humidité du sol très basse - Risque de sécheresse",
+        timestamp: "2025-05-16T08:15:00",
+        status: "active",
+        total_surface: 20,
+        affected_surface: 5,
+        surface_loss_percent: 25
+      },
+      {
+        id: 4,
+        pivot_id: 1,
+        pivot_name: "Pivot 1",
+        type: "voltage",
+        value: 380,
+        threshold: 240,
+        severity: "critical",
+        message: "Surtension détectée - Risque de dommage électrique",
+        timestamp: "2025-05-16T07:20:00",
+        status: "active",
+        total_surface: 25,
+        affected_surface: 10,
+        surface_loss_percent: 40
+      }
+    ];
+
+    document.addEventListener('DOMContentLoaded', function() {
+      // Check if user is logged in
+      if (!window.Auth.isLoggedIn()) {
+        window.location.href = 'login.html';
+        return;
+      }
+
+      // Set user display name and role
+      const userName = window.Auth.getCurrentUsername();
+      const userRole = window.Auth.getCurrentUserRole();
+      document.getElementById('userDisplayName').textContent = userName;
+
+      // Set dashboard link based on role
+      if (userRole === 'employe') {
+        document.getElementById('dashboardLink').href = 'dashboard_employe.html';
+        document.getElementById('userRoleBadge').textContent = 'Employé';
+        document.getElementById('userRoleBadge').className = 'badge bg-secondary';
+      } else {
+        document.getElementById('dashboardLink').href = 'dashboard.html';
+        document.getElementById('userRoleBadge').textContent = 'Gestionnaire';
+        document.getElementById('userRoleBadge').className = 'badge bg-success';
+      }
+
+      // Initialize logout functionality
+      initLogout();
+
+      // Load alerts
+      loadAlerts();
+
+      // Load pivots for filter
+      loadPivotsForFilter();
+    });
+
+    // Initialize logout functionality
+    function initLogout() {
+      const logoutBtn = document.getElementById('logoutBtn');
+      const confirmLogoutBtn = document.getElementById('confirmLogout');
+      const logoutModal = new bootstrap.Modal(document.getElementById('logoutModal'));
+
+      // Show logout confirmation modal when logout button is clicked
+      logoutBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        logoutModal.show();
+      });
+
+      // Handle logout confirmation
+      confirmLogoutBtn.addEventListener('click', function() {
+        // Show loading spinner
+        confirmLogoutBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Déconnexion...';
+        confirmLogoutBtn.disabled = true;
+
+        // Logout user
+        window.Auth.logoutUser().then(() => {
+          window.location.href = 'login.html';
+        });
+      });
+    }
+
+    // Load alerts
+    function loadAlerts() {
+      const alertsContainer = document.getElementById('alertsContainer');
+
+      // In a real app, you would fetch alerts from an API
+      // For now, we'll use the sample data
+      setTimeout(() => {
+        if (sampleAlerts.length > 0) {
+          alertsContainer.innerHTML = sampleAlerts.map(alert => createAlertCard(alert)).join('');
+        } else {
+          alertsContainer.innerHTML = `
+            <div class="no-alerts">
+              <i class="fas fa-check-circle"></i>
+              <h4>Aucune alerte active</h4>
+              <p>Tous les pivots fonctionnent normalement.</p>
+            </div>
+          `;
+        }
+      }, 1000); // Simulate loading delay
+    }
+
+    // Create alert card HTML
+    function createAlertCard(alert) {
+      const severityClass = alert.severity === 'critical' ? '' : 'warning';
+      const severityIcon = alert.severity === 'critical' ? 'fas fa-fire-alt' : 'fas fa-exclamation-triangle';
+      const formattedDate = new Date(alert.timestamp).toLocaleString('fr-FR');
+
+      // Calculate surface loss color based on percentage
+      let surfaceLossColorClass = 'text-success';
+      if (alert.surface_loss_percent >= 75) {
+        surfaceLossColorClass = 'text-danger';
+      } else if (alert.surface_loss_percent >= 50) {
+        surfaceLossColorClass = 'text-warning';
+      } else if (alert.surface_loss_percent >= 25) {
+        surfaceLossColorClass = 'text-warning';
+      }
+
+      return `
+        <div class="alert-card ${severityClass}" data-pivot="${alert.pivot_id}" data-severity="${alert.severity}" data-alert-id="${alert.id}" data-surface-loss="${alert.surface_loss_percent}">
+          <div class="alert-header">
+            <h5 class="alert-title"><i class="${severityIcon}"></i> ${alert.pivot_name}: ${alert.message}</h5>
+            <span class="alert-timestamp">${formattedDate}</span>
+          </div>
+          <div class="alert-content">
+            <p>Type: <strong>${getAlertTypeName(alert.type)}</strong></p>
+            <p>Valeur: <span class="alert-value">${alert.value}${getUnitByType(alert.type)}</span> (Seuil: ${alert.threshold}${getUnitByType(alert.type)})</p>
+          </div>
+          <div class="alert-details">
+            <div class="row mb-2">
+              <div class="col-md-6">
+                <p><strong>Surface totale:</strong> ${alert.total_surface} hectares</p>
+              </div>
+              <div class="col-md-6">
+                <p><strong>Surface affectée:</strong> ${alert.affected_surface} hectares</p>
+              </div>
+            </div>
+            <div class="mb-3">
+              <p class="mb-1"><strong>Pourcentage de perte:</strong> <span class="${surfaceLossColorClass} fw-bold">${alert.surface_loss_percent}%</span></p>
+              <div class="progress" style="height: 10px;">
+                <div class="progress-bar bg-${surfaceLossColorClass.replace('text-', '')}" role="progressbar"
+                     style="width: ${alert.surface_loss_percent}%"
+                     aria-valuenow="${alert.surface_loss_percent}" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+            </div>
+            <p class="mb-0"><strong>Action recommandée:</strong> ${getRecommendedAction(alert)}</p>
+          </div>
+          <div class="alert-actions mt-3">
+            <button class="btn btn-sm btn-primary me-2" onclick="viewPivotDetails(${alert.pivot_id})">
+              <i class="fas fa-eye me-1"></i> Voir le pivot
+            </button>
+            <button class="btn btn-sm btn-success" onclick="acknowledgeAlert(${alert.id})">
+              <i class="fas fa-check me-1"></i> Acquitter
+            </button>
+          </div>
+        </div>
+      `;
+    }
+
+    // Get alert type name
+    function getAlertTypeName(type) {
+      const typeMap = {
+        'temperature': 'Température',
+        'humidity': 'Humidité',
+        'pressure': 'Pression',
+        'voltage': 'Tension électrique',
+        'flow': 'Débit d\'eau'
+      };
+      return typeMap[type] || type;
+    }
+
+    // Get unit by type
+    function getUnitByType(type) {
+      const unitMap = {
+        'temperature': '°C',
+        'humidity': '%',
+        'pressure': 'bar',
+        'voltage': 'V',
+        'flow': 'L/min'
+      };
+      return unitMap[type] || '';
+    }
+
+    // Get recommended action based on alert
+    function getRecommendedAction(alert) {
+      let baseAction = '';
+
+      if (alert.type === 'temperature' && alert.value > 100) {
+        baseAction = 'Vérifier immédiatement le pivot pour un possible incendie. Contacter les services d\'urgence si nécessaire.';
+      } else if (alert.type === 'pressure' && alert.value === 0) {
+        baseAction = 'Vérifier l\'alimentation en eau et l\'intégrité du pivot. Possible perte du pivot.';
+      } else if (alert.type === 'humidity' && alert.value < 10) {
+        baseAction = 'Augmenter l\'irrigation pour éviter le dessèchement des cultures.';
+      } else if (alert.type === 'voltage' && alert.value > 300) {
+        baseAction = 'Couper l\'alimentation électrique et vérifier le système électrique pour éviter les dommages.';
+      } else {
+        baseAction = 'Vérifier le pivot et prendre les mesures appropriées.';
+      }
+
+      // Add surface loss recommendation
+      let surfaceLossAction = '';
+      if (alert.surface_loss_percent >= 75) {
+        surfaceLossAction = ` Perte de surface critique (${alert.surface_loss_percent}%). Envisager des mesures d'urgence pour sauver les cultures restantes.`;
+      } else if (alert.surface_loss_percent >= 50) {
+        surfaceLossAction = ` Perte de surface importante (${alert.surface_loss_percent}%). Évaluer les dommages et mettre en place un plan de récupération.`;
+      } else if (alert.surface_loss_percent >= 25) {
+        surfaceLossAction = ` Perte de surface modérée (${alert.surface_loss_percent}%). Surveiller l'évolution et prendre des mesures préventives.`;
+      } else if (alert.surface_loss_percent > 0) {
+        surfaceLossAction = ` Perte de surface mineure (${alert.surface_loss_percent}%). Surveiller la situation.`;
+      }
+
+      return baseAction + surfaceLossAction;
+    }
+
+    // Load pivots for filter
+    function loadPivotsForFilter() {
+      const pivotFilter = document.getElementById('pivotFilter');
+
+      // Get unique pivots from alerts
+      const uniquePivots = [...new Set(sampleAlerts.map(alert => alert.pivot_id))];
+
+      // Add pivot options to filter
+      uniquePivots.forEach(pivotId => {
+        const pivot = sampleAlerts.find(alert => alert.pivot_id === pivotId);
+        const option = document.createElement('option');
+        option.value = pivotId;
+        option.textContent = pivot.pivot_name;
+        pivotFilter.appendChild(option);
+      });
+    }
+
+    // Filter alerts
+    function filterAlerts() {
+      const severityFilter = document.getElementById('severityFilter').value;
+      const pivotFilter = document.getElementById('pivotFilter').value;
+      const surfaceLossFilter = document.getElementById('surfaceLossFilter').value;
+      const searchInput = document.getElementById('searchInput').value.toLowerCase();
+
+      const alertCards = document.querySelectorAll('.alert-card');
+
+      alertCards.forEach(card => {
+        const pivotId = card.dataset.pivot;
+        const severity = card.dataset.severity;
+        const cardText = card.textContent.toLowerCase();
+
+        // Get the surface loss percentage from the data attribute
+        const lossPercent = parseInt(card.dataset.surfaceLoss);
+
+        // Determine if it matches the surface loss filter
+        let matchesSurfaceLoss = true;
+        if (surfaceLossFilter !== 'all') {
+
+          switch (surfaceLossFilter) {
+            case 'critical':
+              matchesSurfaceLoss = lossPercent >= 75;
+              break;
+            case 'high':
+              matchesSurfaceLoss = lossPercent >= 50 && lossPercent < 75;
+              break;
+            case 'medium':
+              matchesSurfaceLoss = lossPercent >= 25 && lossPercent < 50;
+              break;
+            case 'low':
+              matchesSurfaceLoss = lossPercent < 25;
+              break;
+          }
+        }
+
+        const matchesSeverity = severityFilter === 'all' || severity === severityFilter;
+        const matchesPivot = pivotFilter === 'all' || pivotId === pivotFilter;
+        const matchesSearch = searchInput === '' || cardText.includes(searchInput);
+
+        if (matchesSeverity && matchesPivot && matchesSurfaceLoss && matchesSearch) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+
+      // Show no results message if all cards are hidden
+      const visibleCards = document.querySelectorAll('.alert-card[style="display: block"]');
+      const alertsContainer = document.getElementById('alertsContainer');
+
+      if (visibleCards.length === 0 && alertCards.length > 0) {
+        // Check if no results message already exists
+        if (!document.querySelector('.no-results')) {
+          const noResultsMessage = document.createElement('div');
+          noResultsMessage.className = 'no-alerts no-results';
+          noResultsMessage.innerHTML = `
+            <i class="fas fa-search"></i>
+            <h4>Aucun résultat</h4>
+            <p>Aucune alerte ne correspond à vos critères de recherche.</p>
+          `;
+          alertsContainer.appendChild(noResultsMessage);
+        }
+      } else {
+        // Remove no results message if it exists
+        const noResultsMessage = document.querySelector('.no-results');
+        if (noResultsMessage) {
+          noResultsMessage.remove();
+        }
+      }
+    }
+
+    // Refresh alerts
+    function refreshAlerts() {
+      const alertsContainer = document.getElementById('alertsContainer');
+      alertsContainer.innerHTML = `
+        <div class="text-center py-3">
+          <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Chargement...</span>
+          </div>
+          <p class="mt-2">Actualisation des alertes...</p>
+        </div>
+      `;
+
+      // Reload alerts
+      setTimeout(() => {
+        loadAlerts();
+      }, 1000);
+    }
+
+    // View pivot details
+    function viewPivotDetails(pivotId) {
+      window.location.href = `pivot_details.html?id=${pivotId}`;
+    }
+
+    // Acknowledge alert
+    function acknowledgeAlert(alertId) {
+      // In a real app, you would send a request to the API to acknowledge the alert
+      // For now, we'll just remove it from the UI
+      const alertCard = document.querySelector(`.alert-card[data-alert="${alertId}"]`);
+      if (alertCard) {
+        alertCard.style.opacity = '0.5';
+        alertCard.querySelector('.btn-success').disabled = true;
+        alertCard.querySelector('.btn-success').innerHTML = '<i class="fas fa-check me-1"></i> Acquitté';
+      }
+    }
+  </script>
+</body>
+</html>

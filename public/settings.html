@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>⚙️ Paramètres - Plateforme Agricole</title>
+
+  <!-- Styles -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="css/common-fonts.css" rel="stylesheet">
+  <link href="css/language.css" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary-color: #88c9a1;  /* Vert doux */
+      --secondary-color: #f7a278;  /* Orange pêche */
+      --accent-color: #6a8d92;  /* Bleu-vert */
+      --light-color: #f8f4e3;  /* Crème clair */
+      --dark-color: #5a5a5a;
+    }
+
+    body {
+      background-color: var(--light-color);
+      padding: 20px;
+    }
+
+    .header {
+      background-color: var(--primary-color);
+      border-radius: 15px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      color: white;
+      text-align: center;
+      position: relative;
+    }
+
+    .header h1 {
+      color: white;
+      margin: 0;
+      font-size: 2.2rem;
+    }
+
+    .header .subtitle {
+      color: white;
+      font-size: 1.1rem;
+      opacity: 0.9;
+    }
+
+    .back-btn {
+      position: absolute;
+      left: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: rgba(255, 255, 255, 0.2);
+      border: none;
+      color: white;
+      padding: 8px 15px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .back-btn:hover {
+      background-color: rgba(255, 255, 255, 0.3);
+    }
+
+    .settings-card {
+      background-color: white;
+      border-radius: 15px;
+      padding: 25px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+    }
+
+    .settings-card h2 {
+      color: var(--dark-color);
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #eee;
+    }
+
+    .form-label {
+      font-weight: 500;
+      color: var(--dark-color);
+    }
+
+    .btn-save {
+      background-color: var(--primary-color);
+      border: none;
+      padding: 10px 20px;
+      transition: background-color 0.3s;
+    }
+
+    .btn-save:hover {
+      background-color: #76b78f;
+    }
+
+    .custom-alert {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1000;
+      display: none;
+      min-width: 300px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    /* Styles pour le support RTL (arabe) */
+    .rtl {
+      direction: rtl;
+      text-align: right;
+    }
+
+    .rtl .back-btn {
+      left: auto;
+      right: 20px;
+    }
+
+    .rtl .custom-alert {
+      right: auto;
+      left: 20px;
+    }
+
+    .rtl .form-label {
+      text-align: right;
+    }
+
+    .rtl .d-md-flex.justify-content-md-end {
+      justify-content: flex-start !important;
+    }
+
+    .rtl .me-2 {
+      margin-right: 0 !important;
+      margin-left: 0.5rem !important;
+    }
+
+    .rtl .language-btn img {
+      margin-right: 0 !important;
+      margin-left: 0.5rem !important;
+    }
+
+    /* Style pour les boutons de langue */
+    .language-btn {
+      transition: all 0.3s;
+    }
+
+    .language-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+<body>
+  <div id="customAlert" class="custom-alert alert alert-dismissible fade show" role="alert">
+    <span id="alertMessage"></span>
+    <button type="button" class="btn-close" onclick="hideAlert()"></button>
+  </div>
+
+  <div class="container-fluid">
+    <div class="header">
+      <button class="back-btn" onclick="window.location.href='dashboard.html'">
+        <i class="fas fa-arrow-left me-1"></i> <span class="lang-text" data-lang-key="back_to_dashboard">Tableau de bord</span>
+      </button>
+      <h1><i class="fas fa-cog me-2"></i> <span class="lang-text" data-lang-key="settings">Paramètres</span></h1>
+      <div class="subtitle">🌵 <span class="lang-text" data-lang-key="region">Région de Béchar - Algérie</span> 🌞</div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-8 mx-auto">
+        <div class="settings-card">
+          <h2><i class="fas fa-language me-2"></i> <span class="lang-text" data-lang-key="language_settings">Paramètres de Langue</span></h2>
+
+          <p class="lang-text" data-lang-key="language_description">Sélectionnez la langue que vous souhaitez utiliser pour la plateforme.</p>
+
+          <div class="language-buttons mb-4">
+            <div class="row">
+              <div class="col-md-4 mb-3">
+                <button type="button" class="btn btn-outline-primary w-100 language-btn" data-language="fr">
+                  <img src="https://flagcdn.com/w40/fr.png" width="30" alt="Français" class="me-2">
+                  Français
+                </button>
+              </div>
+              <div class="col-md-4 mb-3">
+                <button type="button" class="btn btn-outline-primary w-100 language-btn" data-language="en">
+                  <img src="https://flagcdn.com/w40/gb.png" width="30" alt="English" class="me-2">
+                  English
+                </button>
+              </div>
+              <div class="col-md-4 mb-3">
+                <button type="button" class="btn btn-outline-primary w-100 language-btn" data-language="ar">
+                  <img src="https://flagcdn.com/w40/dz.png" width="30" alt="العربية" class="me-2">
+                  العربية
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="settings-card">
+          <h2><i class="fas fa-cloud-sun me-2"></i> <span class="lang-text" data-lang-key="weather_config">Configuration Météo</span></h2>
+
+          <form id="weatherSettingsForm">
+            <div class="mb-4">
+              <label for="weatherProvider" class="form-label lang-text" data-lang-key="weather_provider">Fournisseur de données météo</label>
+              <select class="form-select" id="weatherProvider" required>
+                <option value="" class="lang-text" data-lang-key="select_provider">Sélectionner un fournisseur</option>
+                <option value="openweathermap">OpenWeatherMap</option>
+                <option value="weatherapi">WeatherAPI</option>
+                <option value="accuweather">AccuWeather</option>
+                <option value="visualcrossing">Visual Crossing</option>
+              </select>
+              <div class="form-text text-muted lang-text" data-lang-key="provider_help">
+                Choisissez le service météo que vous souhaitez utiliser pour les données.
+              </div>
+            </div>
+
+            <div class="mb-4">
+              <label for="apiKey" class="form-label lang-text" data-lang-key="api_key">Clé API</label>
+              <input type="text" class="form-control" id="apiKey" placeholder="Entrez votre clé API" required>
+              <div class="form-text text-muted lang-text" data-lang-key="api_key_help">
+                Vous pouvez obtenir une clé API en vous inscrivant sur le site du fournisseur sélectionné.
+              </div>
+            </div>
+
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+              <button type="submit" class="btn btn-primary btn-save">
+                <i class="fas fa-save me-2"></i> <span class="lang-text" data-lang-key="save">Enregistrer</span>
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <div class="settings-card">
+          <h2><i class="fas fa-info-circle me-2"></i> <span class="lang-text" data-lang-key="about">À propos</span></h2>
+          <p class="lang-text" data-lang-key="about_description">
+            Cette plateforme de gestion agricole est conçue pour aider les agriculteurs de la région de Béchar
+            à optimiser leurs activités grâce à des données météorologiques précises et des outils de planification.
+          </p>
+          <p>
+            <strong class="lang-text" data-lang-key="version">Version:</strong> 1.0.0<br>
+            <strong class="lang-text" data-lang-key="last_update">Dernière mise à jour:</strong> <span id="lastUpdate"></span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="js/language.js"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Charger les paramètres existants
+      loadWeatherSettings();
+
+      // Définir la date de dernière mise à jour
+      updateLastUpdateDate();
+
+      // Gérer la soumission du formulaire météo
+      document.getElementById('weatherSettingsForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        saveWeatherSettings();
+      });
+
+      // Ajouter des écouteurs d'événements pour les boutons de langue
+      document.querySelectorAll('.language-btn').forEach(button => {
+        button.addEventListener('click', function() {
+          const language = this.getAttribute('data-language');
+          changeLanguage(language);
+        });
+      });
+
+      // Mettre en évidence le bouton de la langue actuelle
+      highlightCurrentLanguage();
+    });
+
+    function loadWeatherSettings() {
+      // Récupérer les paramètres depuis localStorage
+      const weatherSettings = JSON.parse(localStorage.getItem('weatherSettings')) || {};
+
+      // Remplir le formulaire avec les valeurs existantes
+      if (weatherSettings.provider) {
+        document.getElementById('weatherProvider').value = weatherSettings.provider;
+      }
+
+      if (weatherSettings.apiKey) {
+        document.getElementById('apiKey').value = weatherSettings.apiKey;
+      }
+    }
+
+    function highlightCurrentLanguage() {
+      // Réinitialiser tous les boutons
+      document.querySelectorAll('.language-btn').forEach(button => {
+        button.classList.remove('btn-primary');
+        button.classList.add('btn-outline-primary');
+      });
+
+      // Mettre en évidence le bouton de la langue actuelle
+      const activeButton = document.querySelector(`.language-btn[data-language="${currentLanguage}"]`);
+      if (activeButton) {
+        activeButton.classList.remove('btn-outline-primary');
+        activeButton.classList.add('btn-primary');
+      }
+    }
+
+    function updateLastUpdateDate() {
+      // Mettre à jour la date selon la langue
+      const dateOptions = { day: '2-digit', month: '2-digit', year: 'numeric' };
+      let locale = 'fr-FR';
+
+      if (currentLanguage === 'en') {
+        locale = 'en-US';
+      } else if (currentLanguage === 'ar') {
+        locale = 'ar-DZ';
+      }
+
+      document.getElementById('lastUpdate').textContent = new Date().toLocaleDateString(locale, dateOptions);
+    }
+
+    function saveWeatherSettings() {
+      // Récupérer les valeurs du formulaire
+      const provider = document.getElementById('weatherProvider').value;
+      const apiKey = document.getElementById('apiKey').value;
+
+      // Sauvegarder dans localStorage
+      const weatherSettings = {
+        provider: provider,
+        apiKey: apiKey
+      };
+
+      localStorage.setItem('weatherSettings', JSON.stringify(weatherSettings));
+
+      // Afficher un message de confirmation
+      const message = translations[currentLanguage].weather_settings_saved;
+      showAlert('success', message);
+    }
+
+    function showAlert(type, message) {
+      const alertElement = document.getElementById('customAlert');
+      alertElement.className = `custom-alert alert alert-${type} alert-dismissible fade show`;
+      document.getElementById('alertMessage').textContent = message;
+      alertElement.style.display = 'block';
+
+      // Masquer l'alerte après 3 secondes
+      setTimeout(() => {
+        hideAlert();
+      }, 3000);
+    }
+
+    function hideAlert() {
+      document.getElementById('customAlert').style.display = 'none';
+    }
+  </script>
+</body>
+</html>

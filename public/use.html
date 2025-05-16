@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>👥 Gestion des Utilisateurs - Plateforme Agricole</title>
+  
+  <!-- Styles -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  
+  <style>
+    :root {
+      --primary-color: #88c9a1;  /* Vert doux */
+      --secondary-color: #f7a278;  /* Orange pêche */
+      --accent-color: #6a8d92;  /* Bleu-vert */
+      --light-color: #f8f4e3;  /* Crème clair */
+      --dark-color: #5a5a5a;
+    }
+    
+    body {
+      background-color: var(--light-color);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      padding: 20px;
+    }
+    
+    .header {
+      background-color: var(--primary-color);
+      border-radius: 15px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      color: white;
+      text-align: center;
+      position: relative;
+    }
+    
+    .header h1 {
+      color: white;
+      margin: 0;
+      font-size: 2.2rem;
+    }
+    
+    .header .subtitle {
+      color: white;
+      font-size: 1.1rem;
+      opacity: 0.9;
+    }
+    
+    .back-btn {
+      position: absolute;
+      left: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: rgba(255, 255, 255, 0.2);
+      border: none;
+      color: white;
+      padding: 8px 15px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    
+    .back-btn:hover {
+      background-color: rgba(255, 255, 255, 0.3);
+    }
+    
+    .user-card {
+      background-color: white;
+      border-radius: 15px;
+      padding: 25px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+    }
+    
+    .user-card h2 {
+      color: var(--dark-color);
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .table-users {
+      margin-top: 20px;
+    }
+    
+    .table-users th {
+      background-color: #f8f9fa;
+      color: var(--dark-color);
+      font-weight: 600;
+      border-top: none;
+    }
+    
+    .table-users td {
+      vertical-align: middle;
+    }
+    
+    .status-indicator {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      display: inline-block;
+      margin-right: 5px;
+    }
+    
+    .online {
+      background-color: #4caf50;
+    }
+    
+    .offline {
+      background-color: #9e9e9e;
+    }
+    
+    .role-badge {
+      display: inline-block;
+      padding: 5px 10px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 500;
+    }
+    
+    .badge-gestionnaire {
+      background-color: #f8b400;
+      color: white;
+    }
+    
+    .badge-employe {
+      background-color: #6a8d92;
+      color: white;
+    }
+    
+    .action-buttons .btn {
+      padding: 5px 10px;
+      margin: 0 3px;
+    }
+    
+    .filter-section {
+      background-color: white;
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+    
+    .btn-add-user {
+      background-color: var(--primary-color);
+      border: none;
+      transition: background-color 0.3s;
+    }
+    
+    .btn-add-user:hover {
+      background-color: #76b78f;
+    }
+    
+    .custom-alert {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1000;
+      display: none;
+      min-width: 300px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    
+    .profile-section {
+      display: none;
+    }
+    
+    .admin-section {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div id="customAlert" class="custom-alert alert alert-dismissible fade show" role="alert">
+    <span id="alertMessage"></span>
+    <button type="button" class="btn-close" onclick="hideAlert()"></button>
+  </div>
+
+  <div class="container-fluid">
+    <div class="header">
+      <button class="back-btn" onclick="window.location.href='dashboard.html'">
+        <i class="fas fa-arrow-left me-1"></i> Tableau de bord
+      </button>
+      <h1 id="pageTitle"><i class="fas fa-users me-2"></i> Gestion des Utilisateurs</h1>
+      <div class="subtitle">🌵 Région de Béchar - Algérie 🌞</div>
+    </div>
+    
+    <!-- Profile Section (for regular users) -->
+    <div id="profileSection" class="profile-section">
+      <div class="row">
+        <div class="col-md-8 mx-auto">
+          <div class="user-card">
+            <div class="d-flex align-items-center mb-4">
+              <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Avatar" class="rounded-circle me-3" style="width: 80px; height: 80px; object-fit: cover; border: 3px solid var(--primary-color);">
+              <div>
+                <h3 id="profileName" class="mb-0">Chargement...</h3>
+                <p id="profileEmail" class="text-muted mb-1">Chargement...</p>
+                <span id="profileRole" class="role-badge">Chargement...</span>
+              </div>
+            </div>
+            
+            <h2><i class="fas fa-id-card me-2"></i> Informations Personnelles</h2>
+            
+            <form id="profileForm">
+              <div class="mb-3">
+                <label for="fullName" class="form-label">Nom Complet</label>
+                <input type="text" class="form-control" id="fullName" required>
+              </div>
+              
+              <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="email" required>
+              </div>
+              
+              <div class="mb-3">
+                <label for="phone" class="form-label">Téléphone</label>
+                <input type="tel" class="form-control" id="phone">
+              </div>
+              
+              <div class="mb-3">
+                <label for="location" class="form-label">Localisation</label>
+                <input type="text" class="form-control" id="location" value="Béchar, Algérie">
+              </div>
+              
+              <div class="mb-4">
+                <label for="bio" class="form-label">Bio</label>
+                <textarea class="form-control" id="bio" rows="3" placeholder="Parlez-nous de vous..."></textarea>
+              </div>
+              
+              <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <button type="submit" class="btn btn-primary">
+                  <i class="fas fa-save me-2"></i> Enregistrer
+                </button>
+              </div>
+            </form>
+          </div>
+          
+          <div class="user-card">
+            <h2><i class="fas fa-key me-2"></i> Sécurité</h2>
+            
+            <form id="securityForm">
+              <div class="mb-3">
+                <label for="currentPassword" class="form-label">Mot de passe actuel</label>
+                <input type="password" class="form-control" id="currentPassword">
+              </div>
+              
+              <div class="mb-3">
+                <label for="newPassword" class="form-label">Nouveau mot de passe</label>
+                <input type="password" class="form-control" id="newPassword">
+              </div>
+              
+              <div class="mb-4">
+                <label for="confirmPassword" class="form-label">Confirmer le mot de passe</label>
+                <input type="password" class="form-control" id="confirmPassword">
+              </div>
+              
+              <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <button type="submit" class="btn btn-primary">
+                  <i class="fas fa-save me-2"></i> Mettre à jour
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Admin Section (for admin users) -->
+    <div id="adminSection" class="admin-section">
+      <div class="row mb-4">
+        <div class="col-md-12">
+          <div class="filter-section">
+            <div class="row align-items-center">
+              <div class="col-md-3">
+                <button class="btn btn-success btn-add-user" data-bs-toggle="modal" data-bs-target="#addUserModal">
+                  <i class="fas fa-user-plus me-2"></i> Ajouter Utilisateur
+                </button>
+              </div>
+              
+              <div class="col-md-9">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="input-group">
+                      <span class="input-group-text"><i class="fas fa-search"></i></span>
+                      <input type="text" class="form-control" id="searchInput" placeholder="Rechercher par nom ou email...">
+                    </div>
+                  </div>
+                  
+                  <div class="col-md-3">
+                    <select class="form-select" id="roleFilter">
+                      <option value="">Tous les rôles</option>
+                      <option value="gestionnaire">Administrateur</option>
+                      <option value="employe">Utilisateur</option>
+                    </select>
+                  </div>
+                  
+                  <div class="col-md-3">
+                    <select class="form-select" id="statusFilter">
+                      <option value="">Tous les statuts</option>
+                      <option value="online">En ligne</option>
+                      <option value="offline">Hors ligne</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="row">
+        <div class="col-md-12">
+          <div class="user-card">
+            <h2><i class="fas fa-users-cog me-2"></i> Liste des Utilisateurs</h2>
+            
+            <div class="table-responsive">
+              <table class="table table-hover table-users">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Statut</th>
+                    <th>Nom</th>
+                    <th>Email</th>
+                    <th>Rôle</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="userTableBody">
+                  <!-- Users will be loaded here dynamically -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add User Modal -->
+  <div class="modal fade" id="addUserModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header text-white" style="background-color: var(--primary-color);">
+          <h5 class="modal-title">Nouvel Utilisateur</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <form id="userForm">
+            <div class="mb-3">
+              <label for="userName" class="form-label">Nom Complet</label>
+              <input type="text" class="form-control" id="userName" required>
+            </div>
+            <div class="mb-3">
+              <label for="userEmail" class="form-label">Email</label>
+              <input type="email" class="form-control" id="userEmail" required>
+            </div>
+            <div class="mb-3">
+              <label for="userPassword" class="form-label">Mot de passe</label>
+              <input type="password" class="form-control" id="userPassword" required>
+            </div>
+            <div class="mb-3">
+              <label for="userRole" class="form-label">Rôle</label>
+              <select class="form-select" id="userRole" required>
+                <option value="gestionnaire">Administrateur</option>
+                <option value="employe">Utilisateur</option>
+              </select>
+            </div>
+            <div class="d-grid">
+              <button type="submit" class="btn btn-primary">Ajouter</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit User Modal -->
+  <div class="modal fade" id="editUserModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header text-white" style="background-color: var(--primary-color);">
+          <h5 class="modal-title">Modifier Utilisateur</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <form id="editUserForm">
+            <input type="hidden" id="editUserId">
+            <div class="mb-3">
+              <label for="editUserName" class="form-label">Nom Complet</label>
+              <input type="text" class="form-control" id="editUserName" required>
+            </div>
+            <div class="mb-3">
+              <label for="editUserEmail" class="form-label">Email</label>
+              <input type="email" class="form-control" id="editUserEmail" required>
+            </div>
+            <div class="mb-3">
+              <label for="editUserRole" class="form-label">Rôle</label>
+              <select class="form-select" id="editUserRole" required>
+                <option value="gestionnaire">Administrateur</option>
+                <option value="employe">Utilisateur</option>
+              </select>
+            </div>
+            <div class="d-grid">
+              <button type="submit" class="btn btn-primary">Mettre à jour</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  
+  <script>
+    // Current user ID (would normally come from authentication)
+    let currentUserId;
+    let users = [];
+    
+    document.addEventListener('DOMContentLoaded', function() {
+      // Load users
+      loadUsers();
+      
+      // Determine if user is admin and show appropriate section
+      checkUserRole();
+      
+      // Handle profile form submission
+      document.getElementById('profileForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        updateProfile();
+      });
+      
+      // Handle security form submission
+      document.getElementById('securityForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        updatePassword();
+      });
+      
+      // Handle add user form submission
+      document.getElementById('userForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        addUser();
+      });
+      
+      // Handle edit user form submission
+      document.getElementById('editUserForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        updateUser();
+      });
+      
+      // Handle search and filters
+      document.getElementById('searchInput').addEventListener('input', renderUserTable);
+      document.getElementById('roleFilter').addEventListener('change', renderUserTable);
+      document.getElementById('statusFilter').addEventListener('change', renderUserTable);
+    });
+    
+    function loadUsers() {
+      // Get users from localStorage
+      users = JSON.parse(localStorage.getItem('agricultureUsers')) || [];
+      
+      // If no users, create a default admin user
+      if (users.length === 0) {
+        const defaultUser = {
+          id: Date.now(),
+          name: 'Administrateur',
+          email: 'admin@agriculture.dz',
+          password: 'admin123',
+          role: 'gestionnaire',
+          status: 'online',
+          phone: '+213 123 456 789',
+          location: 'Béchar, Algérie',
+          bio: 'Administrateur de la plateforme agricole.'
+        };
+        
+        users.push(defaultUser);
+        localStorage.setItem('agricultureUsers', JSON.stringify(users));
+      }
+      
+      // Get current user ID from localStorage (in a real app, this would come from authentication)
+      const currentUserIdFromStorage = localStorage.getItem('currentUserId');
+      
+      // If we have a stored user ID and it exists in our users array
+      if (currentUserIdFromStorage && users.find(u => u.id == currentUserIdFromStorage)) {
+        currentUserId = parseInt(currentUserIdFromStorage);
+      } else {
+        // Otherwise, just use the first user (for demo purposes)
+        currentUserId = users[0].id;
+        localStorage.setItem('currentUserId', currentUserId);
+      }
+      
+      // Render user table
+      renderUserTable();
+    }
+    
+    function checkUserRole() {
+      // Get current user
+      const currentUser = users.find(u => u.id === currentUserId);
+      
+      if (currentUser && currentUser.role === 'gestionnaire') {
+        // User is admin, show admin section
+        document.getElementById('adminSection').style.display = 'block';
+        document.getElementById('profileSection').style.display = 'none';
+        document.getElementById('pageTitle').innerHTML = '<i class="fas fa-users me-2"></i> Gestion des Utilisateurs';
+      } else {
+        // User is not admin, show profile section
+        document.getElementById('adminSection').style.display = 'none';
+        document.getElementById('profileSection').style.display = 'block';
+        document.getElementById('pageTitle').innerHTML = '<i class="fas fa-user-circle me-2"></i> Mon Profil';
+        
+        // Load profile data
+        loadProfileData();
+      }
+    }
+    
+    function loadProfileData() {
+      // Get current user
+      const currentUser = users.find(u => u.id === currentUserId);
+      
+      if (currentUser) {
+        // Update profile header
+        document.getElementById('profileName').textContent = currentUser.name;
+        document.getElementById('profileEmail').textContent = currentUser.email;
+        
+        const roleBadge = document.getElementById('profileRole');
+        roleBadge.textContent = currentUser.role === 'gestionnaire' ? 'Administrateur' : 'Utilisateur';
+        roleBadge.className = `role-badge ${currentUser.role === 'gestionnaire' ? 'badge-gestionnaire' : 'badge-employe'}`;
+        
+        // Fill form fields
+        document.getElementById('fullName').value = currentUser.name;
+        document.getElementById('email').value = currentUser.email;
+        document.getElementById('phone').value = currentUser.phone || '';
+        document.getElementById('location').value = currentUser.location || 'Béchar, Algérie';
+        document.getElementById('bio').value = currentUser.bio || '';
+      }
+    }
+    
+    function updateProfile() {
+      // Find current user
+      const userIndex = users.findIndex(u => u.id === currentUserId);
+      
+      if (userIndex > -1) {
+        // Update user data
+        users[userIndex] = {
+          ...users[userIndex],
+          name: document.getElementById('fullName').value,
+          email: document.getElementById('email').value,
+          phone: document.getElementById('phone').value,
+          location: document.getElementById('location').value,
+          bio: document.getElementById('bio').value
+        };
+        
+        // Save to localStorage
+        localStorage.setItem('agricultureUsers', JSON.stringify(users));
+        
+        // Update profile header
+        document.getElementById('profileName').textContent = users[userIndex].name;
+        document.getElementById('profileEmail').textContent = users[userIndex].email;
+        
+        // Show success message
+        showAlert('success', 'Profil mis à jour avec succès!');
+      }
+    }
+    
+    function updatePassword() {
+      const currentPassword = document.getElementById('currentPassword').value;
+      const newPassword = document.getElementById('newPassword').value;
+      const confirmPassword = document.getElementById('confirmPassword').value;
+      
+      // Find current user
+      const userIndex = users.findIndex(u => u.id === currentUserId);
+      
+      if (userIndex === -1) {
+        showAlert('danger', 'Utilisateur non trouvé!');
+        return;
+      }
+      
+      // Check if current password is correct
+      if (users[userIndex].password !== currentPassword) {
+        showAlert('danger', 'Mot de passe actuel incorrect!');
+        return;
+      }
+      
+      // Check if new passwords match
+      if (newPassword !== confirmPassword) {
+        showAlert('danger', 'Les nouveaux mots de passe ne correspondent pas!');
+        return;
+      }
+      
+      // Update password
+      users[userIndex].password = newPassword;
+      
+      // Save to localStorage
+      localStorage.setItem('agricultureUsers', JSON.stringify(users));
+      
+      // Clear form
+      document.getElementById('securityForm').reset();
+      
+      // Show success message
+      showAlert('success', 'Mot de passe mis à jour avec succès!');
+    }
+    
+    function addUser() {
+      const newUser = {
+        id: Date.now(),
+        name: document.getElementById('userName').value,
+        email: document.getElementById('userEmail').value,
+        password: document.getElementById('userPassword').value,
+        role: document.getElementById('userRole').value,
+        status: 'offline'
+      };
+      
+      users.push(newUser);
+      localStorage.setItem('agricultureUsers', JSON.stringify(users));
+      
+      renderUserTable();
+      bootstrap.Modal.getInstance(document.getElementById('addUserModal')).hide();
+      document.getElementById('userForm').reset();
+      
+      showAlert('success', 'Utilisateur ajouté avec succès!');
+    }
+    
+    function editUser(userId) {
+      const user = users.find(u => u.id === userId);
+      if (user) {
+        document.getElementById('editUserId').value = user.id;
+        document.getElementById('editUserName').value = user.name;
+        document.getElementById('editUserEmail').value = user.email;
+        document.getElementById('editUserRole').value = user.role;
+        new bootstrap.Modal(document.getElementById('editUserModal')).show();
+      }
+    }
+    
+    function updateUser() {
+      const userId = parseInt(document.getElementById('editUserId').value);
+      const userIndex = users.findIndex(u => u.id === userId);
+      
+      if (userIndex > -1) {
+        users[userIndex] = {
+          ...users[userIndex],
+          name: document.getElementById('editUserName').value,
+          email: document.getElementById('editUserEmail').value,
+          role: document.getElementById('editUserRole').value
+        };
+        
+        localStorage.setItem('agricultureUsers', JSON.stringify(users));
+        renderUserTable();
+        bootstrap.Modal.getInstance(document.getElementById('editUserModal')).hide();
+        
+        showAlert('success', 'Utilisateur mis à jour avec succès!');
+      }
+    }
+    
+    function deleteUser(userId) {
+      // Don't allow deleting the current user
+      if (userId === currentUserId) {
+        showAlert('danger', 'Vous ne pouvez pas supprimer votre propre compte!');
+        return;
+      }
+      
+      Swal.fire({
+        title: 'Êtes-vous sûr?',
+        text: "Cette action ne peut pas être annulée!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Oui, supprimer!',
+        cancelButtonText: 'Annuler'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          users = users.filter(user => user.id !== userId);
+          localStorage.setItem('agricultureUsers', JSON.stringify(users));
+          renderUserTable();
+          
+          showAlert('success', 'Utilisateur supprimé avec succès!');
+        }
+      });
+    }
+    
+    function renderUserTable() {
+      const searchTerm = document.getElementById('searchInput')?.value?.toLowerCase() || '';
+      const roleFilter = document.getElementById('roleFilter')?.value || '';
+      const statusFilter = document.getElementById('statusFilter')?.value || '';
+      
+      const filteredUsers = users.filter(user => {
+        const matchesSearch = user.name.toLowerCase().includes(searchTerm) || 
+                            user.email.toLowerCase().includes(searchTerm);
+        const matchesRole = roleFilter ? user.role === roleFilter : true;
+        const matchesStatus = statusFilter ? user.status === statusFilter : true;
+        return matchesSearch && matchesRole && matchesStatus;
+      });
+      
+      const tbody = document.getElementById('userTableBody');
+      if (!tbody) return;
+      
+      tbody.innerHTML = filteredUsers.map(user => `
+        <tr>
+          <td>${user.id}</td>
+          <td>
+            <div class="d-flex align-items-center">
+              <span class="status-indicator ${user.status}"></span>
+              <span>${user.status === 'online' ? 'En ligne' : 'Hors ligne'}</span>
+            </div>
+          </td>
+          <td>${user.name}</td>
+          <td>${user.email}</td>
+          <td>
+            <span class="role-badge ${user.role === 'gestionnaire' ? 'badge-gestionnaire' : 'badge-employe'}">
+              ${user.role === 'gestionnaire' ? 'Administrateur' : 'Utilisateur'}
+            </span>
+          </td>
+          <td>
+            <div class="action-buttons">
+              <button class="btn btn-sm btn-outline-primary" onclick="editUser(${user.id})">
+                <i class="fas fa-edit"></i>
+              </button>
+              <button class="btn btn-sm btn-outline-danger" onclick="deleteUser(${user.id})">
+                <i class="fas fa-trash"></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+      `).join('') || `<tr><td colspan="6" class="text-center py-3">Aucun utilisateur trouvé</td></tr>`;
+    }
+    
+    function showAlert(type, message) {
+      const alertElement = document.getElementById('customAlert');
+      alertElement.className = `custom-alert alert alert-${type} alert-dismissible fade show`;
+      document.getElementById('alertMessage').textContent = message;
+      alertElement.style.display = 'block';
+      
+      // Hide the alert after 3 seconds
+      setTimeout(() => {
+        hideAlert();
+      }, 3000);
+    }
+    
+    function hideAlert() {
+      document.getElementById('customAlert').style.display = 'none';
+    }
+  </script>
+</body>
+</html>

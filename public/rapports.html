@@ -1,0 +1,1542 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>🌱 Rapports des Tâches - Béchar</title>
+
+  <!-- Styles -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="css/common-fonts.css" rel="stylesheet">
+  <link href="css/language.css" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary-color: #88c9a1;  /* Vert doux */
+      --secondary-color: #f7a278;  /* Orange pêche */
+      --accent-color: #6a8d92;  /* Bleu-vert */
+      --light-color: #f8f4e3;  /* Crème clair */
+      --dark-color: #5a5a5a;
+      --irrigation: #64B5F6;
+      --fertilisation: #9b59b6;
+      --recolte: #e74c3c;
+      --traitement: #f39c12;
+      --autre: #2ecc71;
+    }
+
+    body {
+      background-color: var(--light-color);
+    }
+
+    .header {
+      background-color: var(--primary-color);
+      border-radius: 15px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      color: white;
+      text-align: center;
+      position: relative;
+    }
+
+    .header h1 {
+      color: white;
+      margin: 0;
+      font-size: 2.2rem;
+    }
+
+    .header .subtitle {
+      color: white;
+      font-size: 1.1rem;
+      opacity: 0.9;
+    }
+
+    .back-btn {
+      position: absolute;
+      left: 20px;
+      top: 20px;
+      background-color: rgba(255,255,255,0.2);
+      border: none;
+      border-radius: 50px;
+      padding: 8px 15px;
+      color: white;
+      font-weight: 600;
+      transition: all 0.3s;
+    }
+
+    .back-btn:hover {
+      background-color: rgba(255,255,255,0.3);
+      transform: translateX(-3px);
+    }
+
+    .panel {
+      background-color: white;
+      border-radius: 15px;
+      padding: 20px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+    }
+
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+      padding-bottom: 10px;
+      border-bottom: 2px dashed var(--primary-color);
+    }
+
+    .panel-title {
+      color: var(--dark-color);
+      margin: 0;
+      font-size: 1.4rem;
+    }
+
+    .btn-cute {
+      background-color: var(--secondary-color);
+      color: white;
+      border: none;
+      border-radius: 50px;
+      padding: 8px 20px;
+      font-weight: 600;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+      transition: all 0.3s;
+    }
+
+    .btn-cute:hover {
+      background-color: #e8916a;
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 10px rgba(0,0,0,0.15);
+    }
+
+    .custom-alert {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1050;
+      min-width: 300px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+      border: none;
+      border-left: 5px solid;
+      animation: slideIn 0.5s forwards;
+      display: none;
+      border-radius: 10px;
+    }
+
+    .alert-success-custom {
+      background-color: #d4edda;
+      color: #155724;
+      border-left-color: #28a745;
+    }
+
+    .alert-danger-custom {
+      background-color: #f8d7da;
+      color: #721c24;
+      border-left-color: #dc3545;
+    }
+
+    @keyframes slideIn {
+      from { transform: translateX(100%); }
+      to { transform: translateX(0); }
+    }
+
+    .cute-illustration {
+      width: 100%;
+      max-width: 150px;
+      margin: 0 auto 15px;
+      display: block;
+    }
+
+    /* Styles pour le tableau des tâches */
+    .task-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+    }
+
+    .task-table thead th {
+      background-color: var(--primary-color);
+      color: white;
+      padding: 12px;
+      text-align: left;
+    }
+
+    .task-table tbody tr {
+      transition: all 0.2s;
+    }
+
+    .task-table tbody tr:hover {
+      background-color: rgba(136, 201, 161, 0.1);
+    }
+
+    .task-table td {
+      padding: 12px;
+      border-bottom: 1px solid #eee;
+    }
+
+    .category-badge {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 12px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: white;
+    }
+
+    .time-period-header {
+      background-color: var(--accent-color);
+      color: white;
+      padding: 10px 15px;
+      border-radius: 8px;
+      margin: 20px 0 10px 0;
+      font-weight: 600;
+    }
+
+    .filter-container {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .filter-group {
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .filter-label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 600;
+      color: var(--dark-color);
+    }
+
+    .filter-select {
+      width: 100%;
+      padding: 8px 12px;
+      border-radius: 8px;
+      border: 1px solid #ced4da;
+      background-color: white;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--dark-color);
+    }
+
+    .empty-state i {
+      font-size: 3rem;
+      color: var(--primary-color);
+      margin-bottom: 15px;
+      opacity: 0.7;
+    }
+
+    .empty-state p {
+      font-size: 1.1rem;
+      margin-bottom: 5px;
+    }
+
+    .empty-state .small {
+      font-size: 0.9rem;
+      opacity: 0.7;
+    }
+
+    /* Styles pour les badges de catégorie */
+    .badge-irrigation {
+      background-color: var(--irrigation);
+    }
+
+    .badge-fertilisation {
+      background-color: var(--fertilisation);
+    }
+
+    .badge-recolte {
+      background-color: var(--recolte);
+    }
+
+    .badge-traitement {
+      background-color: var(--traitement);
+    }
+
+    .badge-autre {
+      background-color: var(--autre);
+    }
+
+    /* Style pour les tâches explicitement marquées comme terminées */
+    .explicitly-completed {
+      background-color: rgba(40, 167, 69, 0.1);
+    }
+
+    .explicitly-completed:hover {
+      background-color: rgba(40, 167, 69, 0.2);
+    }
+
+    /* Styles pour les alertes */
+    .alert-item {
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 15px;
+      border-left: 5px solid;
+      background-color: #f8f9fa;
+      transition: all 0.3s;
+    }
+
+    .alert-item:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    .alert-item.critical {
+      border-left-color: #dc3545;
+    }
+
+    .alert-item.warning {
+      border-left-color: #ffc107;
+    }
+
+    .alert-item.info {
+      border-left-color: #17a2b8;
+    }
+
+    .alert-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .alert-title {
+      font-weight: 600;
+      font-size: 1.1rem;
+      margin: 0;
+    }
+
+    .alert-date {
+      color: #6c757d;
+      font-size: 0.9rem;
+    }
+
+    .alert-content {
+      margin-bottom: 10px;
+    }
+
+    .alert-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.9rem;
+      color: #6c757d;
+    }
+
+    .alert-badge {
+      padding: 5px 10px;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .badge-critical {
+      background-color: #f8d7da;
+      color: #dc3545;
+    }
+
+    .badge-warning {
+      background-color: #fff3cd;
+      color: #ffc107;
+    }
+
+    .badge-info {
+      background-color: #d1ecf1;
+      color: #17a2b8;
+    }
+
+    .alert-task-info {
+      background-color: #e6f4ea;
+      padding: 8px 12px;
+      border-radius: 8px;
+      border-left: 3px solid #28a745;
+      font-size: 0.9rem;
+      margin-top: 10px;
+    }
+
+    /* Styles pour l'impression PDF */
+    @media print {
+      body {
+        font-size: 12pt;
+        color: #000;
+        background-color: #fff;
+      }
+
+      .task-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+      }
+
+      .task-table th, .task-table td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+      }
+
+      .task-table th {
+        background-color: #f2f2f2;
+        font-weight: bold;
+      }
+
+      .time-period-header {
+        font-size: 16pt;
+        font-weight: bold;
+        margin: 20px 0 10px 0;
+        color: #28a745;
+      }
+
+      .category-badge {
+        padding: 4px 8px;
+        border-radius: 4px;
+        color: white;
+        font-weight: normal;
+      }
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .filter-container {
+        flex-direction: column;
+      }
+
+      .filter-group {
+        width: 100%;
+      }
+
+      .back-btn {
+        position: static;
+        margin-bottom: 15px;
+        display: block;
+        width: 100%;
+      }
+
+      .header {
+        text-align: center;
+        padding-top: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="customAlert" class="custom-alert alert alert-dismissible fade show" role="alert">
+    <span id="alertMessage"></span>
+    <button type="button" class="btn-close" onclick="hideAlert()"></button>
+  </div>
+
+  <div class="container-fluid">
+    <div class="header">
+      <button class="back-btn" onclick="window.location.href='dashboard.html'">
+        <i class="fas fa-arrow-left me-1"></i> <span class="lang-text" data-lang-key="back_to_dashboard">Tableau de bord</span>
+      </button>
+      <h1><i class="fas fa-chart-bar me-2"></i> <span class="lang-text" data-lang-key="reports">Rapports</span></h1>
+      <div class="subtitle">🌵 <span class="lang-text" data-lang-key="region">Région de Béchar - Algérie</span> 🌞</div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <div class="panel">
+          <div class="panel-header d-flex justify-content-between align-items-center">
+            <h5 class="panel-title"><i class="fas fa-tasks me-2"></i><span class="lang-text" data-lang-key="completed_tasks">Tâches Complétées</span></h5>
+            <button id="downloadPDF" class="btn btn-sm btn-success">
+              <i class="fas fa-file-pdf me-1"></i> <span class="lang-text" data-lang-key="download_pdf">Télécharger PDF</span>
+            </button>
+          </div>
+
+          <ul class="nav nav-tabs mb-3" id="historyTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+              <button class="nav-link active" id="all-tab" data-bs-toggle="tab" data-bs-target="#all-content" type="button" role="tab" aria-controls="all-content" aria-selected="true">
+                <span class="lang-text" data-lang-key="all">Tous</span>
+              </button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="tasks-tab" data-bs-toggle="tab" data-bs-target="#tasks-content" type="button" role="tab" aria-controls="tasks-content" aria-selected="false">
+                <span class="lang-text" data-lang-key="tasks">Tâches</span>
+              </button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="alerts-tab" data-bs-toggle="tab" data-bs-target="#alerts-content" type="button" role="tab" aria-controls="alerts-content" aria-selected="false">
+                <span class="lang-text" data-lang-key="alerts">Alertes</span>
+              </button>
+            </li>
+          </ul>
+
+          <div class="filter-container">
+            <div class="filter-group">
+              <label class="filter-label"><span class="lang-text" data-lang-key="time_period">Période</span></label>
+              <select id="periodFilter" class="filter-select" onchange="filterHistory()">
+                <option value="all" selected><span class="lang-text" data-lang-key="all_time">Toutes les périodes</span></option>
+                <option value="today"><span class="lang-text" data-lang-key="today">Aujourd'hui</span></option>
+                <option value="week"><span class="lang-text" data-lang-key="by_week">Cette semaine</span></option>
+                <option value="month"><span class="lang-text" data-lang-key="by_month">Ce mois</span></option>
+              </select>
+            </div>
+
+            <div class="filter-group">
+              <label class="filter-label"><span class="lang-text" data-lang-key="pivot">Pivot</span></label>
+              <select id="pivotFilter" class="filter-select" onchange="filterHistory()">
+                <option value="all" selected><span class="lang-text" data-lang-key="all_pivots">Tous les pivots</span></option>
+                <!-- Les options de pivot seront ajoutées dynamiquement -->
+              </select>
+            </div>
+
+            <div class="filter-group">
+              <label class="filter-label"><span class="lang-text" data-lang-key="category">Catégorie</span></label>
+              <select id="categoryFilter" class="filter-select" onchange="filterHistory()">
+                <option value="all" selected><span class="lang-text" data-lang-key="all_categories">Toutes les catégories</span></option>
+                <option value="irrigation"><span class="lang-text" data-lang-key="irrigation">Irrigation</span></option>
+                <option value="fertilisation"><span class="lang-text" data-lang-key="fertilization">Fertilisation</span></option>
+                <option value="recolte"><span class="lang-text" data-lang-key="harvest">Récolte</span></option>
+                <option value="traitement"><span class="lang-text" data-lang-key="treatment">Traitement</span></option>
+                <option value="autre"><span class="lang-text" data-lang-key="other">Autre</span></option>
+              </select>
+            </div>
+          </div>
+
+          <div class="tab-content" id="historyTabContent">
+            <div class="tab-pane fade show active" id="all-content" role="tabpanel" aria-labelledby="all-tab">
+              <div id="allHistoryContainer">
+                <!-- Le contenu combiné sera généré dynamiquement -->
+              </div>
+            </div>
+            <div class="tab-pane fade" id="tasks-content" role="tabpanel" aria-labelledby="tasks-tab">
+              <div id="tasksContainer">
+                <!-- Le contenu des tâches sera généré dynamiquement -->
+              </div>
+            </div>
+            <div class="tab-pane fade" id="alerts-content" role="tabpanel" aria-labelledby="alerts-tab">
+              <div id="alertsContainer">
+                <!-- Le contenu des alertes sera généré dynamiquement -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="js/language.js"></script>
+
+  <script>
+    // Variables globales
+    let completedTasks = [];
+    let alerts = [];
+    let historyItems = [];
+    let pivots = [];
+
+    document.addEventListener('DOMContentLoaded', function() {
+      // Simuler un utilisateur connecté pour éviter la redirection
+      localStorage.setItem('isLoggedIn', 'true');
+
+      // Charger la langue
+      loadLanguage();
+
+      // Charger les pivots
+      loadPivots();
+
+      // Charger les tâches complétées et les alertes
+      loadHistoryData();
+
+      // Initialiser les filtres
+      initFilters();
+    });
+
+    function loadPivots() {
+      // Récupérer les pivots depuis localStorage
+      const savedPivots = localStorage.getItem('agriculturePivots');
+
+      if (savedPivots) {
+        // Si des pivots existent dans localStorage, les utiliser
+        pivots = JSON.parse(savedPivots);
+      } else {
+        // Si aucun pivot n'existe, créer des pivots par défaut
+        pivots = ['Pivot 1', 'Pivot 2', 'Pivot 3', 'Pivot 4'];
+        // Sauvegarder les pivots par défaut dans localStorage
+        localStorage.setItem('agriculturePivots', JSON.stringify(pivots));
+      }
+
+      // Mettre à jour le filtre des pivots
+      updatePivotFilter();
+
+      console.log("Pivots chargés:", pivots);
+    }
+
+    function updatePivotFilter() {
+      const pivotFilter = document.getElementById('pivotFilter');
+
+      // Vider le filtre avant de le remplir
+      pivotFilter.innerHTML = '';
+
+      // Ajouter l'option "Tous les pivots"
+      const allPivotsOption = document.createElement('option');
+      allPivotsOption.value = 'all';
+      allPivotsOption.selected = true;
+      allPivotsOption.textContent = 'Tous les pivots';
+      allPivotsOption.setAttribute('data-lang-key', 'all_pivots');
+      pivotFilter.appendChild(allPivotsOption);
+
+      // Ajouter les options pour chaque pivot
+      if (pivots && pivots.length > 0) {
+        pivots.forEach(pivot => {
+          const option = document.createElement('option');
+          option.value = pivot;
+          option.textContent = pivot;
+          pivotFilter.appendChild(option);
+        });
+      }
+
+      console.log("Filtre de pivots mis à jour avec", pivots.length, "pivots");
+    }
+
+    function loadHistoryData() {
+      // Récupérer toutes les tâches depuis localStorage
+      const allEvents = JSON.parse(localStorage.getItem('agricultureEvents')) || [];
+      console.log("Événements chargés:", allEvents.length);
+
+      // Si aucun événement n'existe, créer des événements de démonstration
+      if (allEvents.length === 0) {
+        createDemoEvents();
+        // La fonction createDemoEvents appellera displayTasks
+      } else {
+        // Filtrer pour ne garder QUE les tâches explicitement marquées comme complétées
+        completedTasks = allEvents.filter(task => task.completed === true);
+        console.log("Tâches complétées trouvées:", completedTasks.length);
+
+        // Trier les tâches par date de complétion (plus récentes en premier)
+        completedTasks.sort((a, b) => {
+          // Utiliser la date de complétion si disponible
+          if (a.completedDate && b.completedDate) {
+            return new Date(b.completedDate) - new Date(a.completedDate);
+          }
+          // Fallback sur la date de la tâche
+          return new Date(b.date) - new Date(a.date);
+        });
+      }
+
+      // Récupérer toutes les alertes depuis localStorage
+      alerts = JSON.parse(localStorage.getItem('agricultureAlerts')) || [];
+      console.log("Alertes chargées:", alerts.length);
+
+      // Si aucune alerte n'existe, créer des alertes de démonstration
+      if (alerts.length === 0) {
+        createDemoAlerts();
+      }
+
+      // Combiner les tâches et les alertes dans un seul tableau d'historique
+      historyItems = [];
+
+      // Ajouter les tâches complétées
+      completedTasks.forEach(task => {
+        historyItems.push({
+          type: 'task',
+          id: task.id,
+          title: task.title,
+          description: `Tâche complétée: ${task.title}`,
+          date: task.completedDate || task.date,
+          pivot: task.pivot,
+          category: task.category,
+          completedBy: task.completedBy,
+          details: task
+        });
+      });
+
+      // Ajouter les alertes
+      alerts.forEach(alert => {
+        historyItems.push({
+          type: 'alert',
+          id: alert.id,
+          title: alert.title,
+          description: alert.message,
+          date: alert.date,
+          pivot: alert.pivot,
+          alertType: alert.type, // 'critical', 'warning', 'info'
+          taskCreated: alert.taskCreated || false,
+          taskId: alert.taskId || null,
+          details: alert
+        });
+      });
+
+      // Trier tous les éléments d'historique par date (plus récents en premier)
+      historyItems.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+      // Afficher l'historique
+      displayHistory();
+    }
+
+    function createDemoAlerts() {
+      const demoAlerts = [];
+      const alertTypes = ['critical', 'warning', 'info'];
+      const pivots = JSON.parse(localStorage.getItem('agriculturePivots')) || ['Pivot 1', 'Pivot 2', 'Pivot 3', 'Pivot 4'];
+
+      // Titres et messages pour chaque type d'alerte
+      const alertContent = {
+        'critical': [
+          { title: 'Alerte critique: Niveau d\'eau bas', message: 'Le niveau d\'eau est critique dans le réservoir principal.' },
+          { title: 'Dysfonctionnement détecté', message: 'Un problème technique a été détecté sur le système d\'irrigation.' },
+          { title: 'Alerte météo: Chaleur excessive', message: 'Températures élevées prévues. Risque de stress hydrique pour les cultures.' }
+        ],
+        'warning': [
+          { title: 'Avertissement: Humidité du sol', message: 'L\'humidité du sol est en dessous des niveaux recommandés.' },
+          { title: 'Maintenance requise', message: 'Une maintenance préventive est recommandée pour le système d\'irrigation.' },
+          { title: 'Avertissement: Prévision de gel', message: 'Risque de gel nocturne dans les prochaines 48 heures.' }
+        ],
+        'info': [
+          { title: 'Information: Mise à jour système', message: 'Une mise à jour du système est disponible.' },
+          { title: 'Rappel: Planification', message: 'N\'oubliez pas de mettre à jour votre planification pour la semaine prochaine.' },
+          { title: 'Information: Nouveau rapport', message: 'Un nouveau rapport d\'analyse des sols est disponible.' }
+        ]
+      };
+
+      // Date de début pour les alertes de démonstration (15 jours dans le passé)
+      const startDate = new Date();
+      startDate.setDate(startDate.getDate() - 15);
+
+      // Créer 10 alertes de démonstration
+      for (let i = 0; i < 10; i++) {
+        // Choisir une date aléatoire entre startDate et aujourd'hui
+        const alertDate = new Date(startDate);
+        alertDate.setDate(alertDate.getDate() + Math.floor(Math.random() * 15));
+
+        // Choisir un type d'alerte aléatoire
+        const alertType = alertTypes[Math.floor(Math.random() * alertTypes.length)];
+
+        // Choisir un contenu aléatoire pour ce type d'alerte
+        const content = alertContent[alertType][Math.floor(Math.random() * alertContent[alertType].length)];
+
+        // Choisir un pivot aléatoire
+        const pivot = pivots[Math.floor(Math.random() * pivots.length)];
+
+        // Déterminer si cette alerte a créé une tâche (50% de chance pour les alertes critiques, 30% pour les warnings)
+        let taskCreated = false;
+        let taskId = null;
+
+        if ((alertType === 'critical' && Math.random() < 0.5) || (alertType === 'warning' && Math.random() < 0.3)) {
+          taskCreated = true;
+          taskId = Date.now().toString(36) + Math.random().toString(36).substr(2) + i;
+        }
+
+        // Créer l'alerte
+        const alert = {
+          id: Date.now().toString(36) + Math.random().toString(36).substr(2) + i,
+          title: content.title,
+          message: content.message,
+          type: alertType,
+          pivot: pivot,
+          date: alertDate.toISOString(),
+          taskCreated: taskCreated,
+          taskId: taskId
+        };
+
+        demoAlerts.push(alert);
+      }
+
+      // Sauvegarder les alertes dans localStorage
+      localStorage.setItem('agricultureAlerts', JSON.stringify(demoAlerts));
+
+      // Mettre à jour la variable globale
+      alerts = demoAlerts;
+
+      return demoAlerts;
+    }
+
+    function createDemoEvents() {
+      // Créer des événements de démonstration pour chaque pivot
+      const demoEvents = [];
+      const categories = ['irrigation', 'fertilisation', 'recolte', 'traitement', 'autre'];
+      const titles = {
+        'irrigation': ['Irrigation programmée', 'Arrosage', 'Irrigation goutte-à-goutte'],
+        'fertilisation': ['Fertilisation NPK', 'Épandage d\'engrais', 'Application d\'azote'],
+        'recolte': ['Récolte', 'Moisson', 'Cueillette'],
+        'traitement': ['Traitement fongicide', 'Application d\'herbicide', 'Traitement insecticide'],
+        'autre': ['Maintenance', 'Inspection', 'Préparation du sol']
+      };
+
+      // Date de début pour les événements de démonstration (30 jours dans le passé)
+      const startDate = new Date();
+      startDate.setDate(startDate.getDate() - 30);
+
+      // Pour chaque pivot
+      pivots.forEach(pivot => {
+        // Créer 3 événements par pivot
+        for (let i = 0; i < 3; i++) {
+          // Choisir une date aléatoire entre startDate et aujourd'hui
+          const eventDate = new Date(startDate);
+          eventDate.setDate(eventDate.getDate() + Math.floor(Math.random() * 25)); // Entre -30 et -5 jours
+
+          // Choisir une catégorie aléatoire
+          const category = categories[Math.floor(Math.random() * categories.length)];
+
+          // Choisir un titre aléatoire pour cette catégorie
+          const title = titles[category][Math.floor(Math.random() * titles[category].length)];
+
+          // Créer des utilisateurs de démonstration
+          const demoUsers = [
+            { username: 'admin', fullName: 'Administrateur', role: 'admin' },
+            { username: 'technicien1', fullName: 'Ahmed Benali', role: 'technicien' },
+            { username: 'technicien2', fullName: 'Karim Mansouri', role: 'technicien' },
+            { username: 'agriculteur1', fullName: 'Mohamed Saidi', role: 'agriculteur' }
+          ];
+
+          // Choisir un utilisateur aléatoire
+          const randomUser = demoUsers[Math.floor(Math.random() * demoUsers.length)];
+
+          // Créer l'événement
+          const event = {
+            id: Date.now().toString(36) + Math.random().toString(36).substr(2) + i,
+            title: title,
+            date: eventDate.toISOString().split('T')[0],
+            pivot: pivot,
+            category: category,
+            // Marquer tous les événements de démonstration comme complétés
+            completed: true,
+            completedDate: new Date(eventDate).toISOString(),
+            // Ajouter l'information de l'utilisateur qui a complété la tâche
+            completedBy: {
+              username: randomUser.username,
+              fullName: randomUser.fullName,
+              role: randomUser.role
+            }
+          };
+
+          // Ajouter des heures de début et de fin pour les événements d'irrigation
+          if (category === 'irrigation') {
+            const startHour = Math.floor(Math.random() * 12) + 6; // Entre 6h et 18h
+            const endHour = startHour + Math.floor(Math.random() * 4) + 1; // Entre 1 et 4 heures plus tard
+
+            event.startTime = `${startHour.toString().padStart(2, '0')}:00`;
+            event.endTime = `${endHour.toString().padStart(2, '0')}:00`;
+          }
+
+          demoEvents.push(event);
+        }
+      });
+
+      // Sauvegarder les événements dans localStorage
+      const existingEvents = JSON.parse(localStorage.getItem('agricultureEvents')) || [];
+      const allEvents = [...existingEvents, ...demoEvents];
+      localStorage.setItem('agricultureEvents', JSON.stringify(allEvents));
+
+      console.log("Événements de démonstration créés:", demoEvents.length);
+
+      // Mettre à jour les tâches complétées
+      completedTasks = demoEvents;
+
+      // Créer des alertes de démonstration si nécessaire
+      if (alerts.length === 0) {
+        createDemoAlerts();
+      }
+
+      // Mettre à jour l'historique
+      historyItems = [];
+
+      // Ajouter les tâches complétées à l'historique
+      completedTasks.forEach(task => {
+        historyItems.push({
+          type: 'task',
+          id: task.id,
+          title: task.title,
+          description: `Tâche complétée: ${task.title}`,
+          date: task.completedDate || task.date,
+          pivot: task.pivot,
+          category: task.category,
+          completedBy: task.completedBy,
+          details: task
+        });
+      });
+
+      // Ajouter les alertes à l'historique
+      alerts.forEach(alert => {
+        historyItems.push({
+          type: 'alert',
+          id: alert.id,
+          title: alert.title,
+          description: alert.message,
+          date: alert.date,
+          pivot: alert.pivot,
+          alertType: alert.type,
+          taskCreated: alert.taskCreated || false,
+          taskId: alert.taskId || null,
+          details: alert
+        });
+      });
+
+      // Trier l'historique par date (plus récentes en premier)
+      historyItems.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+      // Afficher l'historique
+      displayHistory();
+    }
+
+    function initFilters() {
+      // Initialiser les filtres avec les valeurs par défaut
+      document.getElementById('periodFilter').value = 'all';
+      document.getElementById('pivotFilter').value = 'all';
+      document.getElementById('categoryFilter').value = 'all';
+    }
+
+    function filterHistory() {
+      displayHistory();
+    }
+
+    function displayHistory() {
+      // Récupérer les valeurs des filtres
+      const periodFilter = document.getElementById('periodFilter').value;
+      const pivotFilter = document.getElementById('pivotFilter').value;
+      const categoryFilter = document.getElementById('categoryFilter').value;
+
+      // Filtrer les éléments d'historique selon les critères sélectionnés
+      let filteredItems = historyItems.filter(item => {
+        // Filtre par pivot
+        if (pivotFilter !== 'all' && item.pivot !== pivotFilter) {
+          return false;
+        }
+
+        // Filtre par catégorie pour les tâches
+        if (categoryFilter !== 'all' && item.type === 'task' && item.category !== categoryFilter) {
+          return false;
+        }
+
+        // Filtre par période
+        if (periodFilter !== 'all') {
+          const itemDate = new Date(item.date);
+          const now = new Date();
+          const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+          if (periodFilter === 'today' && itemDate < today) {
+            return false;
+          }
+
+          if (periodFilter === 'week') {
+            const weekStart = new Date(today);
+            weekStart.setDate(today.getDate() - today.getDay() + (today.getDay() === 0 ? -6 : 1)); // Lundi de la semaine courante
+            if (itemDate < weekStart) {
+              return false;
+            }
+          }
+
+          if (periodFilter === 'month') {
+            const monthStart = new Date(today.getFullYear(), today.getMonth(), 1);
+            if (itemDate < monthStart) {
+              return false;
+            }
+          }
+        }
+
+        return true;
+      });
+
+      // Filtrer les éléments pour chaque onglet
+      const filteredTasks = filteredItems.filter(item => item.type === 'task');
+      const filteredAlerts = filteredItems.filter(item => item.type === 'alert');
+
+      // Afficher les éléments dans chaque conteneur
+      displayTasksInContainer(filteredTasks, 'tasksContainer');
+      displayAlertsInContainer(filteredAlerts, 'alertsContainer');
+      displayCombinedHistory(filteredItems, 'allHistoryContainer');
+    }
+
+    function displayTasksInContainer(tasks, containerId) {
+      const container = document.getElementById(containerId);
+      const periodFilter = document.getElementById('periodFilter').value;
+
+      // Si aucune tâche n'est trouvée
+      if (tasks.length === 0) {
+        container.innerHTML = `
+          <div class="empty-state">
+            <i class="fas fa-clipboard-check"></i>
+            <p><span class="lang-text" data-lang-key="no_completed_tasks">Aucune tâche terminée trouvée</span></p>
+            <p class="small"><span class="lang-text" data-lang-key="tasks_appear_here">Les tâches marquées comme terminées apparaîtront ici</span></p>
+          </div>
+        `;
+        return;
+      }
+
+      // Organiser les tâches par période
+      let tasksByPeriod = {};
+
+      if (periodFilter === 'week') {
+        // Grouper par semaine
+        tasks.forEach(task => {
+          const taskDate = new Date(task.date);
+          const weekStart = getWeekStart(taskDate);
+          const weekEnd = new Date(weekStart);
+          weekEnd.setDate(weekStart.getDate() + 6);
+
+          const weekKey = `${formatDate(weekStart)} - ${formatDate(weekEnd)}`;
+
+          if (!tasksByPeriod[weekKey]) {
+            tasksByPeriod[weekKey] = [];
+          }
+
+          tasksByPeriod[weekKey].push(task);
+        });
+      } else if (periodFilter === 'month') {
+        // Grouper par mois
+        tasks.forEach(task => {
+          const taskDate = new Date(task.date);
+          const monthKey = `${taskDate.toLocaleString('fr-FR', { month: 'long', year: 'numeric' })}`;
+
+          if (!tasksByPeriod[monthKey]) {
+            tasksByPeriod[monthKey] = [];
+          }
+
+          tasksByPeriod[monthKey].push(task);
+        });
+      } else {
+        // Pas de groupement (toutes les périodes)
+        tasksByPeriod['Toutes les tâches'] = tasks;
+      }
+
+      // Générer le HTML pour chaque période
+      let html = '';
+
+      for (const [period, periodTasks] of Object.entries(tasksByPeriod)) {
+        html += `
+          <div class="time-period-header">
+            <i class="fas fa-calendar-week me-2"></i> ${period}
+          </div>
+          <div class="table-responsive">
+            <table class="task-table">
+              <thead>
+                <tr>
+                  <th><span class="lang-text" data-lang-key="date">Date</span></th>
+                  <th><span class="lang-text" data-lang-key="pivot">Pivot</span></th>
+                  <th><span class="lang-text" data-lang-key="time">Heure</span></th>
+                  <th><span class="lang-text" data-lang-key="activity">Activité</span></th>
+                  <th><span class="lang-text" data-lang-key="category">Catégorie</span></th>
+                  <th><span class="lang-text" data-lang-key="completed_by">Complétée par</span></th>
+                </tr>
+              </thead>
+              <tbody>
+        `;
+
+        periodTasks.forEach(task => {
+          const details = task.details;
+          // Utiliser la date de complétion pour l'affichage
+          const taskDate = new Date(task.date);
+          const formattedDate = taskDate.toLocaleDateString('fr-FR');
+          const formattedTime = details.category === 'irrigation' ? `${details.startTime} - ${details.endTime}` : 'Toute la journée';
+
+          // Préparer l'information de l'utilisateur qui a complété la tâche
+          let userInfo = 'Non spécifié';
+          let userRole = '';
+          let userIcon = '';
+
+          if (details.completedBy) {
+            userInfo = details.completedBy.fullName || details.completedBy.username;
+            userRole = details.completedBy.role || 'utilisateur';
+
+            // Choisir une icône en fonction du rôle
+            switch(userRole) {
+              case 'admin':
+                userIcon = '<i class="fas fa-user-shield text-danger me-1" title="Administrateur"></i>';
+                break;
+              case 'technicien':
+                userIcon = '<i class="fas fa-user-cog text-primary me-1" title="Technicien"></i>';
+                break;
+              case 'agriculteur':
+                userIcon = '<i class="fas fa-tractor text-success me-1" title="Agriculteur"></i>';
+                break;
+              default:
+                userIcon = '<i class="fas fa-user text-secondary me-1" title="Utilisateur"></i>';
+            }
+          }
+
+          html += `
+            <tr>
+              <td>${formattedDate}</td>
+              <td>${task.pivot}</td>
+              <td>${formattedTime}</td>
+              <td><i class="fas fa-check-circle text-success me-1" title="Tâche terminée"></i>${task.title}</td>
+              <td><span class="category-badge badge-${details.category}">${getCategoryLabel(details.category)}</span></td>
+              <td>${userIcon}${userInfo}</td>
+            </tr>
+          `;
+        });
+
+        html += `
+              </tbody>
+            </table>
+          </div>
+        `;
+      }
+
+      container.innerHTML = html;
+    }
+
+    function displayAlertsInContainer(alerts, containerId) {
+      const container = document.getElementById(containerId);
+      const periodFilter = document.getElementById('periodFilter').value;
+
+      // Si aucune alerte n'est trouvée
+      if (alerts.length === 0) {
+        container.innerHTML = `
+          <div class="empty-state">
+            <i class="fas fa-bell-slash"></i>
+            <p>Aucune alerte trouvée</p>
+            <p class="small">Les alertes du système apparaîtront ici</p>
+          </div>
+        `;
+        return;
+      }
+
+      // Organiser les alertes par période
+      let alertsByPeriod = {};
+
+      if (periodFilter === 'week') {
+        // Grouper par semaine
+        alerts.forEach(alert => {
+          const alertDate = new Date(alert.date);
+          const weekStart = getWeekStart(alertDate);
+          const weekEnd = new Date(weekStart);
+          weekEnd.setDate(weekStart.getDate() + 6);
+
+          const weekKey = `${formatDate(weekStart)} - ${formatDate(weekEnd)}`;
+
+          if (!alertsByPeriod[weekKey]) {
+            alertsByPeriod[weekKey] = [];
+          }
+
+          alertsByPeriod[weekKey].push(alert);
+        });
+      } else if (periodFilter === 'month') {
+        // Grouper par mois
+        alerts.forEach(alert => {
+          const alertDate = new Date(alert.date);
+          const monthKey = `${alertDate.toLocaleString('fr-FR', { month: 'long', year: 'numeric' })}`;
+
+          if (!alertsByPeriod[monthKey]) {
+            alertsByPeriod[monthKey] = [];
+          }
+
+          alertsByPeriod[monthKey].push(alert);
+        });
+      } else {
+        // Pas de groupement (toutes les périodes)
+        alertsByPeriod['Toutes les alertes'] = alerts;
+      }
+
+      // Générer le HTML pour chaque période
+      let html = '';
+
+      for (const [period, periodAlerts] of Object.entries(alertsByPeriod)) {
+        html += `
+          <div class="time-period-header">
+            <i class="fas fa-calendar-week me-2"></i> ${period}
+          </div>
+          <div class="alerts-container">
+        `;
+
+        periodAlerts.forEach(alert => {
+          const alertDate = new Date(alert.date);
+          const formattedDate = alertDate.toLocaleString('fr-FR', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+          });
+
+          let badgeClass, badgeText;
+
+          if (alert.alertType === 'critical') {
+            badgeClass = 'badge-critical';
+            badgeText = 'Alerte critique';
+          } else if (alert.alertType === 'warning') {
+            badgeClass = 'badge-warning';
+            badgeText = 'Avertissement';
+          } else {
+            badgeClass = 'badge-info';
+            badgeText = 'Information';
+          }
+
+          // Vérifier si cette alerte a créé une tâche
+          let taskCreatedInfo = '';
+          if (alert.taskCreated) {
+            taskCreatedInfo = `
+              <div class="alert-task-info">
+                <i class="fas fa-tasks text-success me-1"></i>
+                <span>Une tâche a été créée à partir de cette alerte</span>
+              </div>
+            `;
+          }
+
+          html += `
+            <div class="alert-item ${alert.alertType}">
+              <div class="alert-header">
+                <h5 class="alert-title">${alert.title}</h5>
+                <span class="alert-date">${formattedDate}</span>
+              </div>
+              <div class="alert-content">
+                <p>${alert.description}</p>
+                ${taskCreatedInfo}
+              </div>
+              <div class="alert-footer">
+                <span><i class="fas fa-map-marker-alt me-1"></i> ${alert.pivot || 'Tous les pivots'}</span>
+                <span class="alert-badge ${badgeClass}">${badgeText}</span>
+              </div>
+            </div>
+          `;
+        });
+
+        html += `</div>`;
+      }
+
+      container.innerHTML = html;
+    }
+
+    function displayCombinedHistory(items, containerId) {
+      const container = document.getElementById(containerId);
+      const periodFilter = document.getElementById('periodFilter').value;
+
+      // Si aucun élément n'est trouvé
+      if (items.length === 0) {
+        container.innerHTML = `
+          <div class="empty-state">
+            <i class="fas fa-history"></i>
+            <p>Aucun élément d'historique trouvé</p>
+            <p class="small">Les tâches complétées et les alertes apparaîtront ici</p>
+          </div>
+        `;
+        return;
+      }
+
+      // Organiser les éléments par période
+      let itemsByPeriod = {};
+
+      if (periodFilter === 'week') {
+        // Grouper par semaine
+        items.forEach(item => {
+          const itemDate = new Date(item.date);
+          const weekStart = getWeekStart(itemDate);
+          const weekEnd = new Date(weekStart);
+          weekEnd.setDate(weekStart.getDate() + 6);
+
+          const weekKey = `${formatDate(weekStart)} - ${formatDate(weekEnd)}`;
+
+          if (!itemsByPeriod[weekKey]) {
+            itemsByPeriod[weekKey] = [];
+          }
+
+          itemsByPeriod[weekKey].push(item);
+        });
+      } else if (periodFilter === 'month') {
+        // Grouper par mois
+        items.forEach(item => {
+          const itemDate = new Date(item.date);
+          const monthKey = `${itemDate.toLocaleString('fr-FR', { month: 'long', year: 'numeric' })}`;
+
+          if (!itemsByPeriod[monthKey]) {
+            itemsByPeriod[monthKey] = [];
+          }
+
+          itemsByPeriod[monthKey].push(item);
+        });
+      } else {
+        // Pas de groupement (toutes les périodes)
+        itemsByPeriod['Tout l\'historique'] = items;
+      }
+
+      // Générer le HTML pour chaque période
+      let html = '';
+
+      for (const [period, periodItems] of Object.entries(itemsByPeriod)) {
+        html += `
+          <div class="time-period-header">
+            <i class="fas fa-calendar-week me-2"></i> ${period}
+          </div>
+        `;
+
+        // Trier les éléments par date (plus récents en premier)
+        periodItems.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+        // Afficher les éléments
+        periodItems.forEach(item => {
+          if (item.type === 'task') {
+            // Afficher une tâche
+            const details = item.details;
+            const taskDate = new Date(item.date);
+            const formattedDate = taskDate.toLocaleDateString('fr-FR');
+
+            html += `
+              <div class="alert-item task">
+                <div class="alert-header">
+                  <h5 class="alert-title"><i class="fas fa-check-circle text-success me-1"></i> ${item.title}</h5>
+                  <span class="alert-date">${formattedDate}</span>
+                </div>
+                <div class="alert-content">
+                  <p>${item.description}</p>
+                </div>
+                <div class="alert-footer">
+                  <span><i class="fas fa-map-marker-alt me-1"></i> ${item.pivot || 'Tous les pivots'}</span>
+                  <span class="category-badge badge-${details.category}">${getCategoryLabel(details.category)}</span>
+                </div>
+              </div>
+            `;
+          } else if (item.type === 'alert') {
+            // Afficher une alerte
+            const alertDate = new Date(item.date);
+            const formattedDate = alertDate.toLocaleString('fr-FR', {
+              day: '2-digit',
+              month: '2-digit',
+              year: 'numeric',
+              hour: '2-digit',
+              minute: '2-digit'
+            });
+
+            let badgeClass, badgeText;
+
+            if (item.alertType === 'critical') {
+              badgeClass = 'badge-critical';
+              badgeText = 'Alerte critique';
+            } else if (item.alertType === 'warning') {
+              badgeClass = 'badge-warning';
+              badgeText = 'Avertissement';
+            } else {
+              badgeClass = 'badge-info';
+              badgeText = 'Information';
+            }
+
+            // Vérifier si cette alerte a créé une tâche
+            let taskCreatedInfo = '';
+            if (item.taskCreated) {
+              taskCreatedInfo = `
+                <div class="alert-task-info">
+                  <i class="fas fa-tasks text-success me-1"></i>
+                  <span>Une tâche a été créée à partir de cette alerte</span>
+                </div>
+              `;
+            }
+
+            html += `
+              <div class="alert-item ${item.alertType}">
+                <div class="alert-header">
+                  <h5 class="alert-title">${item.title}</h5>
+                  <span class="alert-date">${formattedDate}</span>
+                </div>
+                <div class="alert-content">
+                  <p>${item.description}</p>
+                  ${taskCreatedInfo}
+                </div>
+                <div class="alert-footer">
+                  <span><i class="fas fa-map-marker-alt me-1"></i> ${item.pivot || 'Tous les pivots'}</span>
+                  <span class="alert-badge ${badgeClass}">${badgeText}</span>
+                </div>
+              </div>
+            `;
+          }
+        });
+      }
+
+      container.innerHTML = html;
+    }
+
+    function getWeekStart(date) {
+      const dayOfWeek = date.getDay(); // 0 = Dimanche, 1 = Lundi, etc.
+      const diff = date.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1); // Ajuster pour commencer le lundi
+      const monday = new Date(date);
+      monday.setDate(diff);
+      return monday;
+    }
+
+    function formatDate(date) {
+      return date.toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' });
+    }
+
+    function getCategoryLabel(category) {
+      const labels = {
+        'irrigation': 'Irrigation',
+        'fertilisation': 'Fertilisation',
+        'recolte': 'Récolte',
+        'traitement': 'Traitement',
+        'autre': 'Autre'
+      };
+      return labels[category] || category;
+    }
+
+    function showAlert(type, message) {
+      const alert = document.getElementById('customAlert');
+      const alertMessage = document.getElementById('alertMessage');
+
+      alert.className = `custom-alert alert alert-${type}-custom alert-dismissible fade show`;
+      alertMessage.textContent = message;
+
+      alert.style.display = 'block';
+
+      setTimeout(() => {
+        hideAlert();
+      }, 5000);
+    }
+
+    function hideAlert() {
+      document.getElementById('customAlert').style.display = 'none';
+    }
+
+    // Fonction pour générer et télécharger le PDF
+    document.getElementById('downloadPDF').addEventListener('click', function() {
+      // Afficher un message de chargement
+      showAlert('info', 'Génération du PDF en cours...');
+
+      // Récupérer les filtres actuels
+      const periodFilter = document.getElementById('periodFilter').value;
+      const pivotFilter = document.getElementById('pivotFilter').value;
+      const categoryFilter = document.getElementById('categoryFilter').value;
+
+      // Déterminer quel onglet est actif
+      const activeTab = document.querySelector('#historyTabs .nav-link.active');
+      const activeTabId = activeTab.id;
+
+      // Déterminer quel conteneur utiliser pour le PDF
+      let contentContainer;
+      let reportType;
+
+      if (activeTabId === 'all-tab') {
+        contentContainer = document.getElementById('allHistoryContainer');
+        reportType = 'Rapport d\'historique complet';
+      } else if (activeTabId === 'tasks-tab') {
+        contentContainer = document.getElementById('tasksContainer');
+        reportType = 'Rapport des tâches complétées';
+      } else if (activeTabId === 'alerts-tab') {
+        contentContainer = document.getElementById('alertsContainer');
+        reportType = 'Rapport des alertes';
+      }
+
+      // Créer un titre pour le PDF basé sur les filtres
+      let pdfTitle = reportType;
+
+      if (pivotFilter !== 'all') {
+        pdfTitle += ` - Pivot: ${pivotFilter}`;
+      }
+
+      if (categoryFilter !== 'all' && activeTabId !== 'alerts-tab') {
+        pdfTitle += ` - Catégorie: ${getCategoryLabel(categoryFilter)}`;
+      }
+
+      if (periodFilter !== 'all') {
+        let periodText;
+        switch(periodFilter) {
+          case 'today':
+            periodText = 'Aujourd\'hui';
+            break;
+          case 'week':
+            periodText = 'Cette semaine';
+            break;
+          case 'month':
+            periodText = 'Ce mois';
+            break;
+          default:
+            periodText = 'Toutes les périodes';
+        }
+        pdfTitle += ` - Période: ${periodText}`;
+      }
+
+      // Créer une copie du conteneur pour le PDF
+      const pdfContainer = contentContainer.cloneNode(true);
+
+      // Créer un élément temporaire pour le PDF
+      const tempDiv = document.createElement('div');
+      tempDiv.className = 'pdf-container';
+      tempDiv.style.padding = '20px';
+      tempDiv.style.backgroundColor = 'white';
+      tempDiv.style.color = 'black';
+
+      // Ajouter un en-tête au PDF
+      const header = document.createElement('div');
+      header.innerHTML = `
+        <div style="text-align: center; margin-bottom: 20px;">
+          <h2 style="color: #28a745; margin-bottom: 5px;">${pdfTitle}</h2>
+          <p style="color: #6c757d; font-size: 14px;">Généré le ${new Date().toLocaleDateString('fr-FR')} à ${new Date().toLocaleTimeString('fr-FR')}</p>
+          <hr style="border-top: 2px solid #28a745; margin: 10px 0;">
+        </div>
+      `;
+      tempDiv.appendChild(header);
+
+      // Ajouter le contenu
+      tempDiv.appendChild(pdfContainer);
+
+      // Ajouter un pied de page
+      const footer = document.createElement('div');
+      footer.innerHTML = `
+        <div style="text-align: center; margin-top: 20px; padding-top: 10px; border-top: 1px solid #ddd;">
+          <p style="color: #6c757d; font-size: 12px;">© ${new Date().getFullYear()} - Système de gestion agricole</p>
+        </div>
+      `;
+      tempDiv.appendChild(footer);
+
+      // Ajouter l'élément temporaire au document (hors écran)
+      tempDiv.style.position = 'absolute';
+      tempDiv.style.left = '-9999px';
+      document.body.appendChild(tempDiv);
+
+      // Initialiser jsPDF
+      const { jsPDF } = window.jspdf;
+
+      // Créer un nouveau document PDF
+      const pdf = new jsPDF('p', 'mm', 'a4');
+
+      // Utiliser html2canvas pour convertir le contenu en image
+      html2canvas(tempDiv, {
+        scale: 2, // Meilleure qualité
+        useCORS: true,
+        logging: false,
+        backgroundColor: '#ffffff'
+      }).then(canvas => {
+        // Supprimer l'élément temporaire
+        document.body.removeChild(tempDiv);
+
+        // Ajouter l'image au PDF
+        const imgData = canvas.toDataURL('image/png');
+        const imgWidth = 210; // A4 width in mm (210mm)
+        const pageHeight = 295; // A4 height in mm (297mm)
+        const imgHeight = canvas.height * imgWidth / canvas.width;
+        let heightLeft = imgHeight;
+        let position = 0;
+
+        // Ajouter la première page
+        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight;
+
+        // Ajouter des pages supplémentaires si nécessaire
+        while (heightLeft >= 0) {
+          position = heightLeft - imgHeight;
+          pdf.addPage();
+          pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+          heightLeft -= pageHeight;
+        }
+
+        // Déterminer le nom du fichier en fonction du type de rapport
+        let filePrefix;
+        if (activeTabId === 'all-tab') {
+          filePrefix = 'rapport_historique';
+        } else if (activeTabId === 'tasks-tab') {
+          filePrefix = 'rapport_taches';
+        } else if (activeTabId === 'alerts-tab') {
+          filePrefix = 'rapport_alertes';
+        }
+
+        // Télécharger le PDF
+        const fileName = `${filePrefix}_${new Date().toISOString().split('T')[0]}.pdf`;
+        pdf.save(fileName);
+
+        // Afficher un message de succès
+        showAlert('success', 'PDF téléchargé avec succès!');
+      }).catch(error => {
+        console.error('Erreur lors de la génération du PDF:', error);
+        showAlert('danger', 'Erreur lors de la génération du PDF. Veuillez réessayer.');
+      });
+    });
+  </script>
+</body>
+</html>

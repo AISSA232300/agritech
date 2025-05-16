@@ -1,0 +1,364 @@
+{
+  "asset": {
+    "generator": "Khronos glTF Blender I/O v1.6.16",
+    "version": "2.0"
+  },
+  "scene": 0,
+  "scenes": [
+    {
+      "name": "Scene",
+      "nodes": [
+        0
+      ]
+    }
+  ],
+  "nodes": [
+    {
+      "mesh": 0,
+      "name": "Monstera",
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "translation": [
+        0,
+        0,
+        0
+      ]
+    }
+  ],
+  "materials": [
+    {
+      "doubleSided": true,
+      "name": "Pot",
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.6392156862745098,
+          0.3215686274509804,
+          0.2196078431372549,
+          1
+        ],
+        "metallicFactor": 0.2,
+        "roughnessFactor": 0.8
+      }
+    },
+    {
+      "doubleSided": true,
+      "name": "Soil",
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.23921568627450981,
+          0.1568627450980392,
+          0.09019607843137255,
+          1
+        ],
+        "metallicFactor": 0,
+        "roughnessFactor": 1
+      }
+    },
+    {
+      "doubleSided": true,
+      "name": "Stem",
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.17647058823529413,
+          0.29411764705882354,
+          0.11764705882352941,
+          1
+        ],
+        "metallicFactor": 0.1,
+        "roughnessFactor": 0.8
+      }
+    },
+    {
+      "doubleSided": true,
+      "name": "Leaf",
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.2901960784313726,
+          0.5607843137254902,
+          0.24313725490196078,
+          1
+        ],
+        "metallicFactor": 0.1,
+        "roughnessFactor": 0.8
+      }
+    }
+  ],
+  "meshes": [
+    {
+      "name": "Monstera",
+      "primitives": [
+        {
+          "attributes": {
+            "POSITION": 0,
+            "NORMAL": 1,
+            "TEXCOORD_0": 2
+          },
+          "indices": 3,
+          "material": 0
+        },
+        {
+          "attributes": {
+            "POSITION": 4,
+            "NORMAL": 5,
+            "TEXCOORD_0": 6
+          },
+          "indices": 7,
+          "material": 1
+        },
+        {
+          "attributes": {
+            "POSITION": 8,
+            "NORMAL": 9,
+            "TEXCOORD_0": 10
+          },
+          "indices": 11,
+          "material": 2
+        },
+        {
+          "attributes": {
+            "POSITION": 12,
+            "NORMAL": 13,
+            "TEXCOORD_0": 14
+          },
+          "indices": 15,
+          "material": 3
+        }
+      ]
+    }
+  ],
+  "accessors": [
+    {
+      "bufferView": 0,
+      "componentType": 5126,
+      "count": 512,
+      "max": [
+        0.7,
+        0.8,
+        0.7
+      ],
+      "min": [
+        -0.7,
+        0,
+        -0.7
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 1,
+      "componentType": 5126,
+      "count": 512,
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "componentType": 5126,
+      "count": 512,
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 3,
+      "componentType": 5123,
+      "count": 2304,
+      "type": "SCALAR"
+    },
+    {
+      "bufferView": 4,
+      "componentType": 5126,
+      "count": 128,
+      "max": [
+        0.65,
+        0.85,
+        0.65
+      ],
+      "min": [
+        -0.65,
+        0.75,
+        -0.65
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 5,
+      "componentType": 5126,
+      "count": 128,
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 6,
+      "componentType": 5126,
+      "count": 128,
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 7,
+      "componentType": 5123,
+      "count": 384,
+      "type": "SCALAR"
+    },
+    {
+      "bufferView": 8,
+      "componentType": 5126,
+      "count": 256,
+      "max": [
+        0.1,
+        2.3,
+        0.1
+      ],
+      "min": [
+        -0.1,
+        0.8,
+        -0.1
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 9,
+      "componentType": 5126,
+      "count": 256,
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 10,
+      "componentType": 5126,
+      "count": 256,
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 11,
+      "componentType": 5123,
+      "count": 768,
+      "type": "SCALAR"
+    },
+    {
+      "bufferView": 12,
+      "componentType": 5126,
+      "count": 1024,
+      "max": [
+        1.2,
+        2.5,
+        1.2
+      ],
+      "min": [
+        -1.2,
+        0.9,
+        -1.2
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 13,
+      "componentType": 5126,
+      "count": 1024,
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 14,
+      "componentType": 5126,
+      "count": 1024,
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 15,
+      "componentType": 5123,
+      "count": 4608,
+      "type": "SCALAR"
+    }
+  ],
+  "bufferViews": [
+    {
+      "buffer": 0,
+      "byteLength": 6144,
+      "byteOffset": 0
+    },
+    {
+      "buffer": 0,
+      "byteLength": 6144,
+      "byteOffset": 6144
+    },
+    {
+      "buffer": 0,
+      "byteLength": 4096,
+      "byteOffset": 12288
+    },
+    {
+      "buffer": 0,
+      "byteLength": 4608,
+      "byteOffset": 16384
+    },
+    {
+      "buffer": 0,
+      "byteLength": 1536,
+      "byteOffset": 20992
+    },
+    {
+      "buffer": 0,
+      "byteLength": 1536,
+      "byteOffset": 22528
+    },
+    {
+      "buffer": 0,
+      "byteLength": 1024,
+      "byteOffset": 24064
+    },
+    {
+      "buffer": 0,
+      "byteLength": 768,
+      "byteOffset": 25088
+    },
+    {
+      "buffer": 0,
+      "byteLength": 3072,
+      "byteOffset": 25856
+    },
+    {
+      "buffer": 0,
+      "byteLength": 3072,
+      "byteOffset": 28928
+    },
+    {
+      "buffer": 0,
+      "byteLength": 2048,
+      "byteOffset": 32000
+    },
+    {
+      "buffer": 0,
+      "byteLength": 1536,
+      "byteOffset": 34048
+    },
+    {
+      "buffer": 0,
+      "byteLength": 12288,
+      "byteOffset": 35584
+    },
+    {
+      "buffer": 0,
+      "byteLength": 12288,
+      "byteOffset": 47872
+    },
+    {
+      "buffer": 0,
+      "byteLength": 8192,
+      "byteOffset": 60160
+    },
+    {
+      "buffer": 0,
+      "byteLength": 9216,
+      "byteOffset": 68352
+    }
+  ],
+  "buffers": [
+    {
+      "byteLength": 77568,
+      "uri": "data.bin"
+    }
+  ]
+}

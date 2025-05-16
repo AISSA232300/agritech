@@ -1,0 +1,1116 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>🌱 Planification Agricole - Béchar</title>
+
+  <!-- Styles -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css" rel="stylesheet">
+  <link href="css/common-fonts.css" rel="stylesheet">
+  <link href="css/language.css" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary-color: #88c9a1;  /* Vert doux */
+      --secondary-color: #f7a278;  /* Orange pêche */
+      --accent-color: #6a8d92;  /* Bleu-vert */
+      --light-color: #f8f4e3;  /* Crème clair #f8f4e3 */
+      --dark-color: #5a5a5a;
+      --irrigation: #64B5F6;
+      --fertilisation: #9b59b6;
+      --recolte: #e74c3c;
+      --traitement: #f39c12;
+      --autre: #2ecc71;
+    }
+
+    body {
+      background-color: var(--light-color);
+    }
+
+    .header {
+      background-color: var(--primary-color);
+      border-radius: 15px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      color: white;
+      text-align: center;
+      position: relative;
+    }
+
+    .header h1 {
+      color: white;
+      margin: 0;
+      font-size: 2.2rem;
+    }
+
+    .header .subtitle {
+      color: white;
+      font-size: 1.1rem;
+      opacity: 0.9;
+    }
+
+    .back-btn {
+      position: absolute;
+      left: 20px;
+      top: 20px;
+      background-color: rgba(255,255,255,0.2);
+      border: none;
+      border-radius: 50px;
+      padding: 8px 15px;
+      color: white;
+      font-weight: 600;
+      transition: all 0.3s;
+    }
+
+    .back-btn:hover {
+      background-color: rgba(255,255,255,0.3);
+      transform: translateX(-3px);
+    }
+
+    .panel {
+      background-color: white;
+      border-radius: 15px;
+      padding: 20px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+    }
+
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+      padding-bottom: 10px;
+      border-bottom: 2px dashed var(--primary-color);
+    }
+
+    .panel-title {
+      color: var(--dark-color);
+      margin: 0;
+      font-size: 1.4rem;
+    }
+
+    .btn-cute {
+      background-color: var(--secondary-color);
+      color: white;
+      border: none;
+      border-radius: 50px;
+      padding: 8px 20px;
+      font-weight: 600;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+      transition: all 0.3s;
+    }
+
+    .btn-cute:hover {
+      background-color: #e8916a;
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 10px rgba(0,0,0,0.15);
+    }
+
+    .sensor-card {
+      background: linear-gradient(135deg, var(--primary-color) 0%, #7ab992 100%);
+      color: white;
+      border-radius: 12px;
+      padding: 15px;
+      margin-bottom: 15px;
+    }
+
+    .sensor-item {
+      display: flex;
+      align-items: center;
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.2);
+    }
+
+    .sensor-item:last-child {
+      border-bottom: none;
+    }
+
+    .sensor-icon {
+      width: 30px;
+      text-align: center;
+      margin-right: 10px;
+      font-size: 1.2rem;
+    }
+
+    .sensor-value {
+      margin-left: auto;
+      font-weight: bold;
+      font-size: 1.1rem;
+    }
+
+    .weather-card {
+      background: linear-gradient(135deg, var(--accent-color) 0%, #5a7d82 100%);
+      color: white;
+      border-radius: 12px;
+      padding: 15px;
+    }
+
+    .weather-icon {
+      font-size: 2rem;
+      margin-right: 10px;
+    }
+
+    .forecast-day {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px;
+      background: rgba(255,255,255,0.15);
+      border-radius: 8px;
+      margin-bottom: 8px;
+      transition: all 0.3s;
+    }
+
+    .forecast-day:hover {
+      transform: translateX(5px);
+      background: rgba(255,255,255,0.25);
+    }
+
+    .stats-card {
+      text-align: center;
+      padding: 15px;
+      border-radius: 12px;
+      color: white;
+      margin-bottom: 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    .stats-value {
+      font-size: 2rem;
+      font-weight: 700;
+      margin: 10px 0;
+    }
+
+    .stats-label {
+      font-size: 0.9rem;
+      opacity: 0.9;
+    }
+
+    .info-card {
+      background-color: white;
+      border-radius: 12px;
+      padding: 15px;
+    }
+
+    .info-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .info-icon {
+      color: var(--primary-color);
+      margin-right: 10px;
+      width: 25px;
+      text-align: center;
+    }
+
+    .custom-alert {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1050;
+      min-width: 300px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+      border: none;
+      border-left: 5px solid;
+      animation: slideIn 0.5s forwards;
+      display: none;
+      border-radius: 10px;
+    }
+
+    .alert-success-custom {
+      background-color: #d4edda;
+      color: #155724;
+      border-left-color: #28a745;
+    }
+
+    .alert-danger-custom {
+      background-color: #f8d7da;
+      color: #721c24;
+      border-left-color: #dc3545;
+    }
+
+    @keyframes slideIn {
+      from { transform: translateX(100%); }
+      to { transform: translateX(0); }
+    }
+
+    .cute-illustration {
+      width: 100%;
+      max-width: 150px;
+      margin: 0 auto 15px;
+      display: block;
+    }
+
+    /* Styles spécifiques pour le calendrier */
+    #calendar {
+      background-color: white;
+      border-radius: 12px;
+      padding: 15px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    .fc .fc-toolbar-title {
+      color: var(--dark-color);
+      font-weight: 600;
+    }
+
+    .fc .fc-button {
+      background-color: var(--primary-color);
+      border-color: var(--primary-color);
+      color: white;
+    }
+
+    .fc .fc-button:hover {
+      background-color: #7ab992;
+      border-color: #7ab992;
+    }
+
+    .fc-event {
+      border: none;
+      border-radius: 4px;
+      font-weight: 500;
+    }
+
+    .fc-event-irrigation { background-color: var(--irrigation); }
+    .fc-event-fertilisation { background-color: var(--fertilisation); }
+    .fc-event-recolte { background-color: var(--recolte); }
+    .fc-event-traitement { background-color: var(--traitement); }
+    .fc-event-autre { background-color: var(--autre); }
+
+    /* Styles pour le tableau des pivots */
+    .pivot-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+    }
+
+    .pivot-table thead th {
+      background-color: var(--primary-color);
+      color: white;
+      padding: 12px;
+      text-align: left;
+    }
+
+    .pivot-table tbody tr {
+      transition: all 0.2s;
+    }
+
+    .pivot-table tbody tr:hover {
+      background-color: rgba(136, 201, 161, 0.1);
+    }
+
+    .pivot-table td {
+      padding: 12px;
+      border-bottom: 1px solid #eee;
+    }
+
+    .category-badge {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 12px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: white;
+    }
+
+    .bg-purple {
+      background-color: #9b59b6 !important;
+    }
+
+    /* Styles pour les boutons de pivot */
+    .pivot-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 20px;
+      margin-top: 15px;
+    }
+
+    .pivot-btn {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .pivot-btn input {
+      position: absolute;
+      opacity: 0;
+    }
+
+    .pivot-btn label {
+      display: block;
+      padding: 8px;
+      border: 1px solid #dee2e6;
+      border-radius: 8px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s;
+      background-color: white;
+    }
+
+    .pivot-btn input:checked + label {
+      background-color: var(--primary-color);
+      color: white;
+      border-color: var(--primary-color);
+    }
+
+    /* Responsive */
+    @media (max-width: 992px) {
+      .main-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        margin-bottom: 20px;
+      }
+
+      .back-btn {
+        position: static;
+        margin-bottom: 15px;
+      }
+
+      .header {
+        text-align: center;
+        padding-top: 60px;
+      }
+    }
+
+    .time-inputs {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .time-inputs select {
+      flex: 1;
+      border: 1px solid #ced4da;
+      border-radius: 8px;
+      padding: 8px;
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 5px;
+    }
+
+    .btn-sm {
+      padding: 0.25rem 0.5rem;
+      font-size: 0.875rem;
+    }
+
+    .main-grid {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      gap: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div id="customAlert" class="custom-alert alert alert-dismissible fade show" role="alert">
+    <span id="alertMessage"></span>
+    <button type="button" class="btn-close" onclick="hideAlert()"></button>
+  </div>
+
+  <div class="container-fluid">
+    <div class="header">
+      <button class="back-btn" onclick="window.location.href='dashboard.html'">
+        <i class="fas fa-arrow-left me-1"></i> <span class="lang-text" data-lang-key="back_to_dashboard">Tableau de bord</span>
+      </button>
+      <h1><i class="fas fa-calendar-alt me-2"></i> <span class="lang-text" data-lang-key="planning">Planification Agricole</span></h1>
+      <div class="subtitle">🌵 <span class="lang-text" data-lang-key="region">Région de Béchar - Algérie</span> 🌞</div>
+    </div>
+
+    <div class="main-grid">
+      <!-- Sidebar -->
+      <div class="sidebar">
+        <div class="panel">
+          <div class="panel-header">
+            <h5 class="panel-title"><i class="fas fa-cloud-sun me-2"></i><span class="lang-text" data-lang-key="weather_title">Météo - Béchar</span></h5>
+          </div>
+          <div class="weather-card">
+            <div id="weatherForecast"></div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-header">
+            <h5 class="panel-title"><i class="fas fa-info-circle me-2"></i><span class="lang-text" data-lang-key="agricultural_info">Informations</span></h5>
+          </div>
+          <div class="info-card">
+            <div class="info-item">
+              <div class="info-icon"><i class="fas fa-tint"></i></div>
+              <div>
+                <strong class="lang-text" data-lang-key="irrigation_info">Type d'irrigation:</strong> Pivots centraux
+              </div>
+            </div>
+            <div class="info-item">
+              <div class="info-icon"><i class="fas fa-seedling"></i></div>
+              <div>
+                <strong class="lang-text" data-lang-key="crops_info">Cultures:</strong> Dattes, légumes
+              </div>
+            </div>
+            <div class="info-item">
+              <div class="info-icon"><i class="fas fa-calendar-alt"></i></div>
+              <div>
+                <strong class="lang-text" data-lang-key="season_info">Saison:</strong> Récolte Oct-Nov
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-header">
+            <h5 class="panel-title"><i class="fas fa-chart-pie me-2"></i><span class="lang-text" data-lang-key="stats">Statistiques</span></h5>
+          </div>
+          <div class="row">
+            <div class="col-6 mb-3">
+              <div class="stats-card" style="background: linear-gradient(135deg, var(--primary-color) 0%, #7ab992 100%);">
+                <i class="fas fa-tint fa-lg mb-2"></i>
+                <div class="stats-value" id="water-usage">-- m³</div>
+                <div class="stats-label"><span class="lang-text" data-lang-key="water_consumption">Eau utilisée</span></div>
+              </div>
+            </div>
+            <div class="col-6 mb-3">
+              <div class="stats-card" style="background: linear-gradient(135deg, var(--secondary-color) 0%, #e8916a 100%);">
+                <i class="fas fa-tasks fa-lg mb-2"></i>
+                <div class="stats-value" id="tasks-count">--</div>
+                <div class="stats-label"><span class="lang-text" data-lang-key="tasks_month">Tâches ce mois</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Content -->
+      <div class="main-content">
+        <div class="panel">
+          <div class="panel-header">
+            <h5 class="panel-title"><i class="fas fa-calendar-alt me-2"></i><span class="lang-text" data-lang-key="activity_calendar">Calendrier des Activités</span></h5>
+            <div>
+              <button class="btn-cute me-2" data-bs-toggle="modal" data-bs-target="#eventModal">
+                <i class="fas fa-plus me-1"></i> <span class="lang-text" data-lang-key="add">Ajouter</span>
+              </button>
+              <button class="btn-cute btn-cute-danger" onclick="clearAllEvents()">
+                <i class="fas fa-trash me-1"></i> <span class="lang-text" data-lang-key="delete">Supprimer</span>
+              </button>
+            </div>
+          </div>
+          <div id="calendar"></div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-header">
+            <h5 class="panel-title"><i class="fas fa-list-check me-2"></i><span class="lang-text" data-lang-key="pivot_planning">Planification des Pivots</span></h5>
+            <button class="btn-cute" data-bs-toggle="modal" data-bs-target="#eventModal">
+              <i class="fas fa-plus me-1"></i> <span class="lang-text" data-lang-key="add">Ajouter</span>
+            </button>
+          </div>
+          <div class="table-responsive">
+            <table class="pivot-table">
+              <thead>
+                <tr>
+                  <th><span class="lang-text" data-lang-key="date">Date</span></th>
+                  <th><span class="lang-text" data-lang-key="pivot">Pivot</span></th>
+                  <th><span class="lang-text" data-lang-key="time">Heure</span></th>
+                  <th><span class="lang-text" data-lang-key="activity">Activité</span></th>
+                  <th><span class="lang-text" data-lang-key="category">Catégorie</span></th>
+                  <th><span class="lang-text" data-lang-key="actions">Actions</span></th>
+                </tr>
+              </thead>
+              <tbody id="eventTableBody">
+                <!-- Les événements seront ajoutés ici dynamiquement -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Event Modal -->
+  <div class="modal fade" id="eventModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"><span class="lang-text" data-lang-key="new_planning">Nouvelle Planification</span></h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div class="text-center mb-3">
+            <img src="https://cdn-icons-png.flaticon.com/512/3652/3652191.png" class="cute-illustration" alt="Nouvelle planification">
+          </div>
+          <div class="mb-3">
+            <label for="eventTitle" class="form-label"><span class="lang-text" data-lang-key="activity">Activité</span></label>
+            <input type="text" class="form-control" id="eventTitle" placeholder="Ex: Irrigation des palmiers" autocomplete="off">
+          </div>
+          <div class="mb-3">
+            <label for="eventDate" class="form-label"><span class="lang-text" data-lang-key="date">Date</span></label>
+            <input type="date" class="form-control" id="eventDate">
+          </div>
+          <div class="mb-3 time-input-section" id="timeInputSection">
+            <label class="form-label"><span class="lang-text" data-lang-key="time">Heure</span></label>
+            <div class="time-inputs">
+              <select class="form-select" id="eventHour">
+                <option value="08:00">08:00</option>
+                <option value="09:00">09:00</option>
+                <option value="10:00">10:00</option>
+                <option value="11:00">11:00</option>
+                <option value="12:00">12:00</option>
+                <option value="13:00">13:00</option>
+                <option value="14:00">14:00</option>
+                <option value="15:00">15:00</option>
+                <option value="16:00">16:00</option>
+                <option value="17:00">17:00</option>
+              </select>
+              <span>-</span>
+              <select class="form-select" id="eventEndHour">
+                <option value="09:00">09:00</option>
+                <option value="10:00">10:00</option>
+                <option value="11:00">11:00</option>
+                <option value="12:00">12:00</option>
+                <option value="13:00">13:00</option>
+                <option value="14:00">14:00</option>
+                <option value="15:00">15:00</option>
+                <option value="16:00">16:00</option>
+                <option value="17:00">17:00</option>
+                <option value="18:00">18:00</option>
+              </select>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label"><span class="lang-text" data-lang-key="category">Catégorie</span></label>
+            <div class="btn-group w-100" role="group">
+              <input type="radio" class="btn-check" name="eventCategory" id="irrigation" value="irrigation" checked>
+              <label class="btn btn-outline-primary" for="irrigation"><i class="fas fa-tint"></i> <span class="lang-text" data-lang-key="irrigation">Irrigation</span></label>
+
+              <input type="radio" class="btn-check" name="eventCategory" id="fertilisation" value="fertilisation">
+              <label class="btn btn-outline-primary" for="fertilisation"><i class="fas fa-flask"></i> <span class="lang-text" data-lang-key="fertilization">Fertilisation</span></label>
+
+              <input type="radio" class="btn-check" name="eventCategory" id="recolte" value="recolte">
+              <label class="btn btn-outline-primary" for="recolte"><i class="fas fa-apple-alt"></i> <span class="lang-text" data-lang-key="harvest">Récolte</span></label>
+
+              <input type="radio" class="btn-check" name="eventCategory" id="traitement" value="traitement">
+              <label class="btn btn-outline-primary" for="traitement"><i class="fas fa-syringe"></i> <span class="lang-text" data-lang-key="treatment">Traitement</span></label>
+
+              <input type="radio" class="btn-check" name="eventCategory" id="autre" value="autre">
+              <label class="btn btn-outline-primary" for="autre"><i class="fas fa-ellipsis-h"></i> <span class="lang-text" data-lang-key="other">Autre</span></label>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label"><span class="lang-text" data-lang-key="select_pivots">Sélectionner les pivots</span></label>
+            <div class="d-flex align-items-center mb-2">
+              <div class="pivot-container" id="pivotButtonsContainer">
+                <!-- Les boutons de pivot seront ajoutés dynamiquement ici -->
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><span class="lang-text" data-lang-key="cancel">Annuler</span></button>
+          <button type="button" class="btn-cute" onclick="saveEvent()"><span class="lang-text" data-lang-key="save">Enregistrer</span></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/locales/fr.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="js/language.js"></script>
+
+  <script>
+    let calendar;
+    const API_KEY = 'a162c938e49d47143cfe359703f7f716';
+    let pivots = ['Pivot 1', 'Pivot 2', 'Pivot 3', 'Pivot 4'];
+
+    document.addEventListener('DOMContentLoaded', function() {
+      // Load language
+      loadLanguage();
+
+      initCalendar();
+      loadPivots();
+      loadEvents();
+      loadWeather();
+      updateStats();
+
+      document.getElementById('eventDate').valueAsDate = new Date();
+      document.getElementById('eventHour').value = '08:00';
+      document.getElementById('eventEndHour').value = '09:00';
+
+      document.querySelectorAll('input[name="eventCategory"]').forEach(radio => {
+        radio.addEventListener('change', function() {
+          toggleTimeInputs(this.value === 'irrigation');
+        });
+      });
+    });
+
+    function initCalendar() {
+      const calendarEl = document.getElementById('calendar');
+
+      calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        locale: currentLanguage,
+        headerToolbar: {
+          left: 'prev,next today',
+          center: 'title',
+          right: 'dayGridMonth,dayGridWeek'
+        },
+        eventClick: function(info) {
+          deleteEventWithConfirmation(info.event.id);
+        },
+        eventContent: function(arg) {
+          const timeText = arg.timeText ? `${arg.timeText} - ` : '';
+          const pivotText = arg.event.extendedProps.pivot ? ` (${arg.event.extendedProps.pivot})` : '';
+
+          return {
+            html: `
+              <div class="fc-event-main-frame">
+                <div class="fc-event-time">${timeText}</div>
+                <div class="fc-event-title">${arg.event.title}${pivotText}</div>
+              </div>
+            `
+          };
+        }
+      });
+
+      calendar.render();
+    }
+
+    function toggleTimeInputs(show) {
+      const timeInputSection = document.getElementById('timeInputSection');
+      if (show) {
+        timeInputSection.style.display = 'block';
+      } else {
+        timeInputSection.style.display = 'none';
+      }
+    }
+
+    function loadPivots() {
+      const savedPivots = localStorage.getItem('agriculturePivots');
+      if (savedPivots) {
+        pivots = JSON.parse(savedPivots);
+      }
+      updatePivotButtons();
+    }
+
+    function updatePivotButtons() {
+      const container = document.getElementById('pivotButtonsContainer');
+      container.innerHTML = '';
+
+      pivots.forEach((pivot, index) => {
+        const pivotId = `pivot${index + 1}`;
+        container.innerHTML += `
+          <div class="pivot-btn">
+            <input type="checkbox" id="${pivotId}" name="pivots" value="${pivot}">
+            <label for="${pivotId}">${pivot}</label>
+          </div>
+        `;
+      });
+    }
+
+    function loadEvents() {
+      const events = JSON.parse(localStorage.getItem('agricultureEvents')) || [];
+
+      // Filtrer pour ne montrer que les tâches non complétées
+      const pendingEvents = events.filter(event => !event.completed);
+
+      pendingEvents.forEach(event => {
+        calendar.addEvent({
+          id: event.id,
+          title: event.title,
+          start: event.category === 'irrigation' ? `${event.date}T${event.startTime}` : event.date,
+          end: event.category === 'irrigation' ? `${event.date}T${event.endTime}` : event.date,
+          allDay: event.category !== 'irrigation',
+          className: `fc-event-${event.category}`,
+          extendedProps: {
+            category: event.category,
+            pivot: event.pivot,
+            startTime: event.startTime,
+            endTime: event.endTime
+          }
+        });
+      });
+
+      updateEventTable();
+      updateStats();
+    }
+
+    function loadWeather() {
+      fetch(`https://api.openweathermap.org/data/2.5/forecast?q=Béchar,DZ&units=metric&appid=${API_KEY}`)
+        .then(response => response.json())
+        .then(data => {
+          const forecastContainer = document.getElementById('weatherForecast');
+          forecastContainer.innerHTML = '';
+
+          for (let i = 0; i < 5; i++) {
+            const forecast = data.list[i * 8];
+            const date = new Date(forecast.dt * 1000);
+
+            forecastContainer.innerHTML += `
+              <div class="forecast-day">
+                <div class="weather-day-info">
+                  <div class="fw-bold" style="width: 80px;">${date.toLocaleDateString(currentLanguage === 'fr' ? 'fr-FR' : currentLanguage === 'en' ? 'en-US' : 'ar-DZ', {weekday: 'short'})}</div>
+                  <i class="fas fa-${getWeatherIcon(forecast.weather[0].icon)}"></i>
+                  <div>${forecast.weather[0].description}</div>
+                </div>
+                <div class="weather-day-details">
+                  <div>${Math.round(forecast.main.temp)}°C</div>
+                </div>
+              </div>`;
+          }
+        })
+        .catch(error => {
+          console.error('Erreur de chargement de la météo:', error);
+          document.getElementById('weatherForecast').innerHTML = `
+            <div class="text-center py-2">
+              <i class="fas fa-exclamation-triangle me-2"></i>
+              Données météo non disponibles
+            </div>`;
+        });
+    }
+
+    function getWeatherIcon(iconCode) {
+      const icons = {
+        '01': 'sun', '02': 'cloud-sun', '03': 'cloud', '04': 'cloud',
+        '09': 'cloud-rain', '10': 'cloud-sun-rain', '11': 'bolt',
+        '13': 'snowflake', '50': 'smog'
+      };
+      return icons[iconCode.substr(0, 2)] || 'cloud';
+    }
+
+    function saveEvent() {
+      const title = document.getElementById('eventTitle').value.trim();
+      const date = document.getElementById('eventDate').value;
+      const category = document.querySelector('input[name="eventCategory"]:checked').value;
+
+      // Récupérer tous les pivots sélectionnés
+      const selectedPivots = Array.from(document.querySelectorAll('input[name="pivots"]:checked')).map(el => el.value);
+
+      if (!title || !date || selectedPivots.length === 0) {
+        const errorMessage = translations[currentLanguage].fill_all_fields || 'Veuillez remplir tous les champs obligatoires et sélectionner au moins un pivot';
+        showAlert('danger', errorMessage);
+        return;
+      }
+
+      let startTime = '00:00';
+      let endTime = '23:59';
+
+      if (category === 'irrigation') {
+        startTime = document.getElementById('eventHour').value;
+        endTime = document.getElementById('eventEndHour').value;
+
+        if (startTime >= endTime) {
+          const timeErrorMessage = translations[currentLanguage].time_error || "L'heure de fin doit être après l'heure de début";
+          showAlert('danger', timeErrorMessage);
+          return;
+        }
+      }
+
+      // Créer un événement pour chaque pivot sélectionné
+      const events = JSON.parse(localStorage.getItem('agricultureEvents')) || [];
+
+      selectedPivots.forEach(pivot => {
+        const newEvent = {
+          id: Date.now().toString() + '-' + pivot.replace(/\s+/g, '-').toLowerCase(),
+          title: title,
+          date: date,
+          startTime: startTime,
+          endTime: endTime,
+          category: category,
+          pivot: pivot
+        };
+
+        events.push(newEvent);
+
+        calendar.addEvent({
+          id: newEvent.id,
+          title: newEvent.title,
+          start: category === 'irrigation' ? `${newEvent.date}T${newEvent.startTime}` : newEvent.date,
+          end: category === 'irrigation' ? `${newEvent.date}T${newEvent.endTime}` : newEvent.date,
+          allDay: category !== 'irrigation',
+          className: `fc-event-${newEvent.category}`,
+          extendedProps: {
+            category: newEvent.category,
+            pivot: newEvent.pivot,
+            startTime: newEvent.startTime,
+            endTime: newEvent.endTime
+          }
+        });
+      });
+
+      localStorage.setItem('agricultureEvents', JSON.stringify(events));
+      updateEventTable();
+      updateStats();
+
+      bootstrap.Modal.getInstance(document.getElementById('eventModal')).hide();
+      document.getElementById('eventTitle').value = '';
+      document.getElementById('eventDate').valueAsDate = new Date();
+      document.getElementById('eventHour').value = '08:00';
+      document.getElementById('eventEndHour').value = '09:00';
+
+      // Désélectionner tous les pivots
+      document.querySelectorAll('input[name="pivots"]').forEach(checkbox => {
+        checkbox.checked = false;
+      });
+
+      const successMessage = translations[currentLanguage].planning_saved || `Planification enregistrée pour ${selectedPivots.length} pivot(s)!`;
+      showAlert('success', successMessage.replace('{count}', selectedPivots.length));
+    }
+
+    function deleteEventWithConfirmation(eventId) {
+      Swal.fire({
+        title: translations[currentLanguage].confirm_delete || 'Confirmer la suppression',
+        text: translations[currentLanguage].delete_planning_confirm || "Voulez-vous vraiment supprimer cette planification?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#e74c3c',
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: translations[currentLanguage].yes_delete || 'Oui, supprimer!',
+        cancelButtonText: translations[currentLanguage].cancel || 'Annuler'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          deleteEvent(eventId);
+        }
+      });
+    }
+
+    function deleteEvent(eventId) {
+      const events = JSON.parse(localStorage.getItem('agricultureEvents')).filter(e => e.id !== eventId);
+      localStorage.setItem('agricultureEvents', JSON.stringify(events));
+
+      const eventToRemove = calendar.getEventById(eventId);
+      if (eventToRemove) {
+        eventToRemove.remove();
+      }
+
+      updateEventTable();
+      updateStats();
+      const deleteSuccessMessage = translations[currentLanguage].planning_deleted || 'Planification supprimée avec succès!';
+      showAlert('success', deleteSuccessMessage);
+    }
+
+    function markTaskAsCompleted(eventId) {
+      // Récupérer tous les événements
+      const events = JSON.parse(localStorage.getItem('agricultureEvents')) || [];
+
+      // Trouver l'événement à marquer comme terminé
+      const eventIndex = events.findIndex(e => e.id === eventId);
+
+      if (eventIndex === -1) {
+        showAlert('danger', 'Tâche introuvable!');
+        return;
+      }
+
+      // Récupérer l'utilisateur actuel
+      const currentUser = JSON.parse(localStorage.getItem('currentUser')) || {
+        username: 'admin',
+        fullName: 'Administrateur',
+        role: 'admin'
+      };
+
+      // Marquer l'événement comme terminé
+      events[eventIndex].completed = true;
+      events[eventIndex].completedDate = new Date().toISOString();
+      events[eventIndex].completedBy = {
+        username: currentUser.username,
+        fullName: currentUser.fullName || currentUser.username,
+        role: currentUser.role || 'utilisateur'
+      };
+
+      // Sauvegarder les événements mis à jour
+      localStorage.setItem('agricultureEvents', JSON.stringify(events));
+
+      // Supprimer l'événement du calendrier
+      const eventToRemove = calendar.getEventById(eventId);
+      if (eventToRemove) {
+        eventToRemove.remove();
+      }
+
+      // Mettre à jour la table des événements
+      updateEventTable();
+      updateStats();
+
+      // Afficher un message de succès
+      const successMessage = translations[currentLanguage]?.task_completed || 'Tâche marquée comme terminée et déplacée vers les rapports!';
+      showAlert('success', successMessage);
+
+      // Ajouter cette action à l'historique des actions récentes de l'utilisateur
+      addToUserHistory(currentUser.username, `A marqué la tâche "${events[eventIndex].title}" comme terminée`, 'task_completed');
+    }
+
+    // Fonction pour ajouter une action à l'historique de l'utilisateur
+    function addToUserHistory(username, action, actionType) {
+      const userHistory = JSON.parse(localStorage.getItem('userActionHistory')) || {};
+
+      if (!userHistory[username]) {
+        userHistory[username] = [];
+      }
+
+      // Ajouter l'action à l'historique
+      userHistory[username].unshift({
+        action: action,
+        type: actionType,
+        timestamp: new Date().toISOString(),
+        page: 'planification'
+      });
+
+      // Limiter l'historique à 50 actions par utilisateur
+      if (userHistory[username].length > 50) {
+        userHistory[username] = userHistory[username].slice(0, 50);
+      }
+
+      // Sauvegarder l'historique mis à jour
+      localStorage.setItem('userActionHistory', JSON.stringify(userHistory));
+    }
+
+    function clearAllEvents() {
+      Swal.fire({
+        title: translations[currentLanguage].confirm_delete || 'Confirmer la suppression',
+        html: `<div class="text-danger"><i class="fas fa-exclamation-triangle fa-2x mb-3"></i><p>${translations[currentLanguage].delete_all_confirm || 'Êtes-vous sûr de vouloir supprimer TOUTES les planifications?'}</p><p class="fw-bold">${translations[currentLanguage].irreversible_action || 'Cette action est irréversible!'}</p></div>`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#e74c3c',
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: translations[currentLanguage].yes_delete_all || 'Oui, tout supprimer!',
+        cancelButtonText: translations[currentLanguage].cancel || 'Annuler'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          localStorage.removeItem('agricultureEvents');
+          calendar.getEvents().forEach(event => event.remove());
+          updateEventTable();
+          updateStats();
+          const allDeletedMessage = translations[currentLanguage].all_plannings_deleted || 'Toutes les planifications ont été supprimées!';
+          showAlert('success', allDeletedMessage);
+        }
+      });
+    }
+
+    function updateEventTable() {
+      const events = JSON.parse(localStorage.getItem('agricultureEvents')) || [];
+
+      // Filtrer pour ne montrer que les tâches non complétées
+      const pendingEvents = events.filter(event => !event.completed);
+
+      pendingEvents.sort((a, b) => {
+        const dateA = new Date(`${a.date}T${a.startTime}`);
+        const dateB = new Date(`${b.date}T${b.startTime}`);
+        return dateA - dateB;
+      });
+
+      let html = '';
+      pendingEvents.forEach(event => {
+        const eventDate = new Date(`${event.date}T${event.startTime}`);
+        const formattedDate = eventDate.toLocaleDateString('fr-FR');
+        const formattedTime = event.category === 'irrigation' ? `${event.startTime} - ${event.endTime}` : '/';
+
+        let categoryClass = '';
+        let categoryText = '';
+        switch(event.category) {
+          case 'irrigation':
+            categoryClass = 'bg-primary';
+            categoryText = 'Irrigation';
+            break;
+          case 'fertilisation':
+            categoryClass = 'bg-purple';
+            categoryText = 'Fertilisation';
+            break;
+          case 'recolte':
+            categoryClass = 'bg-danger';
+            categoryText = 'Récolte';
+            break;
+          case 'traitement':
+            categoryClass = 'bg-warning text-dark';
+            categoryText = 'Traitement';
+            break;
+          default:
+            categoryClass = 'bg-success';
+            categoryText = 'Autre';
+        }
+
+        html += `
+          <tr>
+            <td>${formattedDate}</td>
+            <td>${event.pivot}</td>
+            <td>${formattedTime}</td>
+            <td>${event.title}</td>
+            <td><span class="category-badge ${categoryClass}">${categoryText}</span></td>
+            <td>
+              <div class="action-buttons">
+                <button class="btn btn-sm btn-outline-success me-1" onclick="markTaskAsCompleted('${event.id}')" title="Marquer comme terminée">
+                  <i class="fas fa-check"></i>
+                </button>
+                <button class="btn btn-sm btn-outline-danger" onclick="deleteEventWithConfirmation('${event.id}')" title="Supprimer">
+                  <i class="fas fa-trash-alt"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+        `;
+      });
+
+      document.getElementById('eventTableBody').innerHTML = html || `
+        <tr>
+          <td colspan="6" class="text-center py-4 text-muted">
+            <i class="fas fa-calendar-plus fa-2x mb-2"></i><br>
+            Aucune planification enregistrée
+          </td>
+        </tr>
+      `;
+    }
+
+    function updateStats() {
+        const events = JSON.parse(localStorage.getItem('agricultureEvents')) || [];
+
+        // Calculer l'utilisation d'eau (supposition: 100m³ par irrigation)
+        const waterUsage = events.filter(e => e.category === 'irrigation').length * 100;
+        document.getElementById('water-usage').textContent = `${waterUsage} m³`;
+
+        // Compter les tâches ce mois-ci
+        const currentMonth = new Date().getMonth();
+        const currentYear = new Date().getFullYear();
+        const tasksThisMonth = events.filter(event => {
+          const eventDate = new Date(event.date);
+          return eventDate.getMonth() === currentMonth && eventDate.getFullYear() === currentYear;
+        }).length;
+
+        document.getElementById('tasks-count').textContent = tasksThisMonth;
+      }
+
+      function showAlert(type, message) {
+        const alert = document.getElementById('customAlert');
+        const alertMessage = document.getElementById('alertMessage');
+
+        alert.className = `custom-alert alert alert-dismissible fade show alert-${type}-custom`;
+        alertMessage.innerHTML = `<i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-triangle'} me-2"></i>${message}`;
+        alert.style.display = 'block';
+
+        setTimeout(() => {
+          hideAlert();
+        }, 5000);
+      }
+
+      function hideAlert() {
+        const alert = document.getElementById('customAlert');
+        alert.style.display = 'none';
+      }
+    </script>
+  </body>
+  </html>
+
+
+
+
+
+
+
+
+
+
+

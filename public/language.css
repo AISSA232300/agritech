@@ -1,0 +1,101 @@
+/* Styles pour le support RTL (arabe) */
+.rtl {
+  direction: rtl;
+  text-align: right;
+}
+
+.rtl .back-btn {
+  left: auto;
+  right: 20px;
+}
+
+.rtl .custom-alert {
+  right: auto;
+  left: 20px;
+}
+
+.rtl .form-label {
+  text-align: right;
+}
+
+.rtl .d-md-flex.justify-content-md-end {
+  justify-content: flex-start !important;
+}
+
+.rtl .me-1, .rtl .me-2, .rtl .me-3 {
+  margin-right: 0 !important;
+}
+
+.rtl .me-1 {
+  margin-left: 0.25rem !important;
+}
+
+.rtl .me-2 {
+  margin-left: 0.5rem !important;
+}
+
+.rtl .me-3 {
+  margin-left: 1rem !important;
+}
+
+.rtl .ms-1, .rtl .ms-2, .rtl .ms-3 {
+  margin-left: 0 !important;
+}
+
+.rtl .ms-1 {
+  margin-right: 0.25rem !important;
+}
+
+.rtl .ms-2 {
+  margin-right: 0.5rem !important;
+}
+
+.rtl .ms-3 {
+  margin-right: 1rem !important;
+}
+
+.rtl .sidebar-icon {
+  margin-right: 0 !important;
+  margin-left: 10px !important;
+}
+
+.rtl .sidebar-link {
+  text-align: right;
+}
+
+.rtl .dropdown-menu {
+  text-align: right;
+}
+
+.rtl .modal-header .btn-close {
+  margin: -0.5rem auto -0.5rem -0.5rem;
+}
+
+.rtl .action-buttons .btn {
+  margin-right: 0;
+  margin-left: 3px;
+}
+
+.rtl .table th,
+.rtl .table td {
+  text-align: right;
+}
+
+/* Style pour les boutons de langue */
+.language-btn {
+  transition: all 0.3s;
+}
+
+.language-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.language-btn img {
+  transition: all 0.3s;
+}
+
+.rtl .language-btn img {
+  margin-right: 0 !important;
+  margin-left: 0.5rem !important;
+}
